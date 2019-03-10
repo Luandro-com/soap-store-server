@@ -1,6 +1,10 @@
 const { getUserId } = require('../services/auth/utils')
 
 const Query = {
+  async content(parent, args, ctx, info) {
+    const res = await ctx.db.query.contents({}, info)
+    return res[0]
+  },
   feed(parent, args, ctx, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info)
   },

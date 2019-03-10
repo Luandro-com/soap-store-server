@@ -97,6 +97,7 @@ type ProductCategory {
   id: ID! @unique
   name: String! @unique
   subCategories: [String]
+  image: String
 }
 
 type Cupom {

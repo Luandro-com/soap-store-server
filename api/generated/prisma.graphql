@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Mar 10 2019 07:47:11 GMT-0300 (-03)
+# timestamp: Sun Mar 10 2019 10:19:32 GMT-0300 (-03)
 
 type Address implements Node {
   id: ID!
@@ -8681,6 +8681,7 @@ type ProductCategory implements Node {
   id: ID!
   name: String!
   subCategories: [String!]!
+  image: String
 }
 
 """A connection to a list of items."""
@@ -8695,6 +8696,7 @@ type ProductCategoryConnection {
 
 input ProductCategoryCreateInput {
   name: String!
+  image: String
   subCategories: ProductCategoryCreatesubCategoriesInput
 }
 
@@ -8721,6 +8723,8 @@ enum ProductCategoryOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  image_ASC
+  image_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -8731,6 +8735,7 @@ type ProductCategoryPreviousValues {
   id: ID!
   name: String!
   subCategories: [String!]!
+  image: String
 }
 
 type ProductCategorySubscriptionPayload {
@@ -8774,16 +8779,19 @@ input ProductCategorySubscriptionWhereInput {
 
 input ProductCategoryUpdateDataInput {
   name: String
+  image: String
   subCategories: ProductCategoryUpdatesubCategoriesInput
 }
 
 input ProductCategoryUpdateInput {
   name: String
+  image: String
   subCategories: ProductCategoryUpdatesubCategoriesInput
 }
 
 input ProductCategoryUpdateManyMutationInput {
   name: String
+  image: String
   subCategories: ProductCategoryUpdatesubCategoriesInput
 }
 
@@ -8894,6 +8902,46 @@ input ProductCategoryWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  image: String
+
+  """All values that are not equal to given value."""
+  image_not: String
+
+  """All values that are contained in given list."""
+  image_in: [String!]
+
+  """All values that are not contained in given list."""
+  image_not_in: [String!]
+
+  """All values less than the given value."""
+  image_lt: String
+
+  """All values less than or equal the given value."""
+  image_lte: String
+
+  """All values greater than the given value."""
+  image_gt: String
+
+  """All values greater than or equal the given value."""
+  image_gte: String
+
+  """All values containing the given string."""
+  image_contains: String
+
+  """All values not containing the given string."""
+  image_not_contains: String
+
+  """All values starting with the given string."""
+  image_starts_with: String
+
+  """All values not starting with the given string."""
+  image_not_starts_with: String
+
+  """All values ending with the given string."""
+  image_ends_with: String
+
+  """All values not ending with the given string."""
+  image_not_ends_with: String
 }
 
 input ProductCategoryWhereUniqueInput {
