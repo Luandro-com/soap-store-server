@@ -1,0 +1,37 @@
+input PaymentInput {
+  method: PaymentType!
+  cupom: String
+  info: String
+  orderId: String!
+}
+
+enum PaymentType {
+  CREDIT
+  DEBIT
+  MONEY_ORDER
+  RECURRYING
+}
+
+input CartInput {
+  productId: ID!
+  variantsIds: [ID]
+  quantity: Int
+}
+
+input OrderInput {
+  recurrying: Boolean
+  cartId: ID!
+  processedAt: DateTime
+  orderId: ID
+  shippingAddressId: ID!
+}
+
+input ContentInput {
+  title: String
+  logo: String
+  code: String
+  sections: Section
+  description: String
+  contact: String
+  footer: String
+}

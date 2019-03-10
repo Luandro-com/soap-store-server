@@ -1,0 +1,111 @@
+mutation {
+  createProduct(data: {
+    price: 10000
+    stockQuantity: 10
+    name: "Malaleuca e lavanda"
+    description: "Sabão super delicado e ceboso"
+    image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
+    category: {
+      create: {
+        name: "Em barra"
+        subCategories: {
+          set: [
+             "Peles secas"
+          ]
+        }
+      }
+    }
+  }) {
+    id
+  }
+  # variantA: createProductVariant(
+  #   data: {
+  #     name: "Limão e capim santo"
+  #     product: {
+  #       connect: {
+  #         name: "Caixa Kombucha"
+  #       }
+  #     }
+  #   },
+  # ) {
+  #   name
+  # }
+  # variantB: createProductVariant(
+  #   data: {
+  #     name: "Abacaxi com hortelã"
+  #     product: {
+  #       connect: {
+  #         name: "Caixa Kombucha"
+  #       }
+  #     }
+  #   },
+  # ) {
+  #   name
+  # }
+  createAdmin: createUser(data: {
+    email: "admin@example.com"
+    password: "$2a$10$hACwQ5/HQI6FhbIISOUVeusy3sKyUDhSq36fF5d/54aAdiygJPFzm" # plaintext password: "nooneknows"
+    firstName: "SUPER"
+    lastName: "DEV"
+    posts: {
+      create: [{
+        title: "Hello World 👋"
+        body: "<p>I like turtles.</p>"
+        isPublished: true
+      }, {
+        title: "Join us at GraphQL Europe 🇪🇺 "
+        body: "<p>Get a 10%-discount with this promo code on graphql-europe.org: gql-boilerplates</p>"
+        isPublished: true
+      }, {
+        title: "Solving world hunger"
+        body: "<p>This is a draft...</p>"
+        isPublished: false
+      }]
+    },
+    role: ADMIN
+    cart: {
+      create: {}
+    }
+  }) {
+    id
+  },
+  createEditor: createUser(data: {
+    email: "editor@example.com"
+    password: "$2a$10$hACwQ5/HQI6FhbIISOUVeusy3sKyUDhSq36fF5d/54aAdiygJPFzm" # plaintext password: "nooneknows"
+    firstName: "SUPER"
+    lastName: "EDITOR"
+    posts: {
+      create: [{
+        title: "Welcome to the universe 👋"
+        body: "<p>I like turtles.</p>"
+        isPublished: true
+      }, {
+        title: "There will be flags 🇪🇺 "
+        body: "<p>Get a 10%-discount with this promo code on graphql-europe.org: gql-boilerplates</p>"
+        isPublished: true
+      }, {
+        title: "Plan to overthrow the king"
+        body: "<p>This is a draft...</p>"
+        isPublished: false
+      }]
+    },
+    role: EDITOR
+    cart: {
+      create: {}
+    }
+  }) {
+    id
+  },
+  createUser: createUser(data: {
+    email: "customer@example.com"
+    password: "$2a$10$hACwQ5/HQI6FhbIISOUVeusy3sKyUDhSq36fF5d/54aAdiygJPFzm" # plaintext password: "nooneknows"
+    firstName: "John"
+    lastName: "McKenley"
+    role: CUSTOMER
+    cart: {
+      create: {}
+    }
+  }) {
+    id
+  },
+}

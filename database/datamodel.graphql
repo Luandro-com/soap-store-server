@@ -1,0 +1,257 @@
+type Post {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isPublished: Boolean! @default(value: "false")
+  title: String!
+  body: String!
+  author: User!
+}
+
+type User {
+  id: ID! @unique
+  email: String! @unique
+  password: String!
+  firstName: String
+  lastName: String
+  posts: [Post!]!
+  subscribed: Boolean @default(value: "false")
+  role: Role! @default(value: "CUSTOMER")
+  addresses: [Address!]!
+  orders: [Order!]!
+  cart: Cart!
+  payments: [Payment!]!
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  CUSTOMER
+  DELIVERY
+}
+
+type NewsletterSubscription {
+  email: String! @unique
+  createdAt: DateTime!
+}
+type Address {
+  id: ID! @unique
+  type: AddressType! @default(value: "SHIPPING")
+  street: String!
+  number: String!
+  complement: String
+  zip: String!
+  district: String
+  city: String
+  state: String
+  country: String
+  firstName: String!
+  lastName: String!
+  customer: User!
+}
+
+enum AddressType {
+  BILLING
+  SHIPPING
+}
+
+type Cart {
+  id: ID! @unique
+  products: [CartItem!]!
+  updatedAt: DateTime!
+  customer: User!
+}
+
+type CartItem {
+  id: ID! @unique
+  cart: Cart!
+  product: Product
+  quantity: Int
+  variants: [ProductVariant!]!
+}
+
+type ProductVariant {
+  id: ID! @unique
+  name: String! @unique
+  information: String
+  image: String
+  product: Product! @relation(name: "VariantsByProduct")
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type Product {
+  id: ID! @unique
+  price: Int!
+  name: String! @unique
+  stockQuantity: Int
+  variants: [ProductVariant!]!
+  @relation(name: "VariantsByProduct", onDelete: CASCADE)
+  category: ProductCategory
+  description: String
+  image: String
+  updatedAt: DateTime!
+}
+
+type ProductCategory {
+  id: ID! @unique
+  name: String! @unique
+  subCategories: [String]
+}
+
+type Cupom {
+  id: ID! @unique
+  discount: Int!
+  code: String!
+  updatedAt: DateTime!
+}
+
+type OrderShippingAddress {
+  id: ID! @unique
+  street: String!
+  number: String!
+  complement: String
+  zip: String!
+  district: String
+  city: String
+  state: String
+  country: String
+  firstName: String!
+  lastName: String!
+  order: Order!
+}
+
+type Order {
+  id: ID! @unique
+  recurrying: Boolean! @default(value: "false")
+  status: OrderStatus! @default(value: "WAITING_PAYMENT")
+  cart: Cart!
+  subTotalPrice: Int!
+  totalShippingPrice: Int
+  totalPrice: Int!
+  customer: User!
+  processedAt: DateTime
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  shippingAddress: OrderShippingAddress!
+  payment: Payment
+}
+
+enum OrderStatus {
+  WAITING_PAYMENT
+  CANCELED
+  PACKAGING
+  SHIPPED
+  DELIVERED
+}
+
+type Payment {
+  id: ID! @unique
+  paymentId: String
+  type: String!
+  currency: String
+  creditCard: CreditCard
+  url: String
+  boletoNumber: String
+  barCodeNumber: String
+  digitableLine: String
+  expirationDate: String
+  instructions: String
+  demonstrative: String
+  assignor: String
+  identification: String
+  customer: User!
+  merchantOrderId: String!
+  customerName: String
+  order: Order!
+  tid: String
+  proofOfSale: String
+  authorizationCode: String
+  softDescriptor: String
+  provider: String
+  amount: Int
+  serviceTaxAmount: Int
+  installments: Int
+  interest: Int
+  capture: Boolean @default(value: "false")
+  authenticate: Boolean @default(value: "false")
+  recurrent: Boolean @default(value: "false")
+  receivedDate: DateTime
+  cupom: Cupom
+  status: Int
+  isSplitted: Boolean
+  returnMessage: String
+  returnCode: String
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type CreditCard {
+  id: ID! @unique
+  cardNumber: String!
+  holder: String!
+  expirationDate: String!
+  saveCard: Boolean @default(value: "false")
+  brand: String!
+}
+
+type Stores {
+  latitude: Float!
+  longitude: Float!
+  image: String
+  name: String!
+  description: String
+  address: String
+  city: String
+  zip: String
+  updatedAt: DateTime!
+}
+
+type ResetPasswordRequest {
+  id: ID! @unique
+  hash: String! @unique
+  reset: Boolean @default(value: "false")
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+}
+
+type File {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String! @unique
+}
+
+type Content {
+  title: String
+  code: String
+  logo: String
+  metaDescription: String
+  metaFavicon: String
+  metaKeyWords: [String!]
+  sections: [Section]
+  authorGuideline: String
+  description: String
+  scope: String
+  contact: String
+  footer: String
+  librarianInfo: String
+  privacyStatement: String
+  proofInstructions: String
+  publicationFrequency: String
+  purchaseArticleDescription: String
+  reviewGuidelines: String
+  waiverPolicy: String
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+enum Section {
+  ISSUEBANNER
+  PODCASTS
+  CALLS
+} 

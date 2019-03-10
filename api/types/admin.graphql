@@ -1,0 +1,18 @@
+input ProductInput {
+  productId: String
+  name: String
+  price: Int
+  stockQuantity: Int
+  description: String
+  image: String
+  category: String
+  subCategories: [String]
+}
+
+input ProductVariantInput {
+  productId: String
+  variantId: String
+  name: String
+  information: String
+  image: String
+}

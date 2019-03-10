@@ -1,0 +1,55 @@
+# import Post, DateTime, Address, Order, Product, Payment, Store from "generated/prisma.graphql"
+# import * from "types/user.graphql"
+# import * from "types/shop.graphql"
+# import * from "types/admin.graphql"
+
+scalar Upload
+
+type Query {
+  feed: [Post!]!
+  drafts: [Post!]!
+  post(id: ID!): Post
+  products: [Product]
+  user: User
+  users: [User]
+  allCarts: [Cart]
+  allOrders: [Order]
+  customers: [User]
+  admins: [User]
+  payments: [Payment]
+  content: Content
+  uploads: [File]
+}
+
+type Mutation {
+  signup(email: String!, password: String!, cart: String): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  createDraft(title: String!, text: String!): Post!
+  publish(id: ID!): Post!
+  deletePost(id: ID!): Post!
+  updateUser(input: UserInput): User!
+  updateUserRole(userId: ID!, role: Role!): User!
+  addToCart(input: CartInput): Cart
+  removeFromCart(input: CartInput): Cart
+  saveAddress(input: AddressInput): Address
+  removeAddress(addressId: ID!): [Address]
+  saveOrder(input: OrderInput): Order
+  cancelOrder(orderId: ID!): [Order]
+  payment(input: PaymentInput): Payment
+  saveProductVariant(input: ProductVariantInput): ProductVariant
+  saveProduct(input: ProductInput): Product
+  removeProduct(productId: ID!): ID!
+  removeProductVariant(variantId: ID!): ID!
+  updateOrderStatus(orderId: ID! status: OrderStatus!): Order
+  updateContent(input: ContentInput!): Content
+  uploadFile(file: Upload!): File
+  uploadFiles(file: Upload!): [File]
+  renameFile(file: Upload!): File!
+  deleteFile(file: Upload!): File!
+  sendPasswordResetEmail(email: String!): Boolean
+  resetPassword(password: String! hash: String!): Boolean
+}
+
+type Subscription {
+  feedSubscription: PostSubscriptionPayload!
+}
