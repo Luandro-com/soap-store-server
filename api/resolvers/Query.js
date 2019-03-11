@@ -31,6 +31,10 @@ const Query = {
     return ctx.db.query.user({ where: { id } }, info)
   },
 
+  productCategories(parent, args, ctx, info) {
+    return ctx.db.query.productCategories(null, info)
+  },
+
   products(parent, args, ctx, info) {
     return ctx.db.query.products(null, info)
   },

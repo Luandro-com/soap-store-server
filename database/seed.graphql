@@ -2,11 +2,11 @@ mutation {
   createContent: createContent(data: {
     title: "Flor do Cerrado"
     description: "It's niceeeee"
-    logo: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/t/59e6658ee5dd5b93386ec908/1546981084853/?format=1500w"
+    logo: "https://i.ibb.co/GPnZv7x/logo.png"
   }) {
     title
   },
-  createProduct(data: {
+  productA: createProduct(data: {
     price: 10000
     stockQuantity: 10
     name: "Malaleuca e lavanda"
@@ -19,6 +19,46 @@ mutation {
         subCategories: {
           set: [
              "Peles secas"
+          ]
+        }
+      }
+    }
+  }) {
+    id
+  }
+  productB: createProduct(data: {
+    price: 10000
+    stockQuantity: 10
+    name: "Óleo de castanha do pará"
+    description: "Sabão super delicado e ceboso"
+    image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
+    category: {
+      create: {
+        name: "Líquido"
+        image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
+        subCategories: {
+          set: [
+             "Peles cebosas"
+          ]
+        }
+      }
+    }
+  }) {
+    id
+  }
+  productC: createProduct(data: {
+    price: 10000
+    stockQuantity: 10
+    name: "Pó dental"
+    description: "Melhor que Colgate"
+    image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
+    category: {
+      create: {
+        name: "Outros"
+        image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
+        subCategories: {
+          set: [
+             "Dentes"
           ]
         }
       }

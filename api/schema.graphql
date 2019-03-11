@@ -9,6 +9,7 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
+  productCategories: [ProductCategory!]!
   products: [Product]
   user: User
   users: [User]
