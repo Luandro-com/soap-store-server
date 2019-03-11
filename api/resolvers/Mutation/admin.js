@@ -41,6 +41,28 @@ const admin = {
     console.log('ID', id)
     return id
   },
+  async saveProductCategory(parent, { input }, ctx, info) {
+    let validInputs = {
+      product: {}
+    }
+    Object.keys(input).map(i => {
+      if (i === 'productId') {
+        validInputs.product = { connect: { id: input[i]} }
+      } else {
+        validInputs[i] = input[i]
+      }
+    })
+    return await ctx.db.mutation.upsertProductVariant({
+      update: validInputs,
+      where: { id: input.variantId || "" },
+      create: validInputs,
+    }, info)
+  },
+  async removeProductCategory(parent, { variantId }, ctx, info) {
+    const { id } = await ctx.db.mutation.deleteProductVariant({ where: { id: variantId } })
+    console.log('ID', id)
+    return id
+  },
   async updateOrderStatus(parent, { orderId, status }, ctx, info) {
     return await ctx.db.mutation.updateOrder({
       where: { id: orderId },

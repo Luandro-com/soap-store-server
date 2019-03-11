@@ -144,6 +144,16 @@ const shop = {
     return userCart
     
   },
+  async subscribe(parent, args, ctx, info) {
+    try {
+      const res = await ctx.db.mutation.createNewsletterSubscription({ data: { email: args.email }})
+      console.log('RES', res)
+      return true
+    } catch (err) {
+      console.log('Error on newsletter', err)
+      return false
+    }
+  },
   async payment(parent, args, ctx, info) {
     try {
       const { input } = args

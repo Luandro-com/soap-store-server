@@ -72,6 +72,7 @@ type CartItem {
 
 type ProductVariant {
   id: ID! @unique
+  slug: String! @unique
   name: String! @unique
   information: String
   image: String
@@ -82,12 +83,14 @@ type ProductVariant {
 
 type Product {
   id: ID! @unique
+  slug: String! @unique
   price: Int!
   name: String! @unique
   stockQuantity: Int
   variants: [ProductVariant!]!
   @relation(name: "VariantsByProduct", onDelete: CASCADE)
   category: ProductCategory
+  subCategories: [ProductSubCategory]
   description: String
   image: String
   updatedAt: DateTime!
@@ -96,8 +99,20 @@ type Product {
 type ProductCategory {
   id: ID! @unique
   name: String! @unique
-  subCategories: [String]
+  slug: String! @unique
+  subCategories: [ProductSubCategory]
   image: String
+  products: [Product]
+  information: String
+}
+
+type ProductSubCategory {
+  id: ID! @unique
+  name: String! @unique
+  slug: String! @unique
+  image: String
+  information: String
+  categories: [ProductCategory]
 }
 
 type Cupom {
@@ -229,13 +244,13 @@ type File {
 
 type Content {
   title: String
-  code: String
   logo: String
   metaDescription: String
   metaFavicon: String
   metaKeyWords: [String!]
   sections: [Section]
   infoImage: String
+  bannerImages: [String]
   description: String
   contact: String
   footer: String
@@ -247,4 +262,5 @@ enum Section {
   BANNER
   INFO
   PRODUCTS
+  MAP
 } 

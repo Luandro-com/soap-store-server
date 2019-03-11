@@ -2,8 +2,13 @@ mutation {
   createContent: createContent(data: {
     title: "Flor do Cerrado"
     description: "It's niceeeee"
-    logo: "https://i.ibb.co/8M0qCNQ/logo.png"
-    infoImage: "https://i.ibb.co/XF665fn/info.png"
+    logo: "https://i.imgur.com/5tzycGz.png"
+    infoImage: "https://i.imgur.com/I9b1RLd.png"
+    bannerImages: { set: [
+      "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w",
+      "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w",
+      "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w",
+    ]}
   }) {
     title
   },
@@ -11,16 +16,19 @@ mutation {
     price: 10000
     stockQuantity: 10
     name: "Malaleuca e lavanda"
+    slug: "malaleuca-e-lavanda"
     description: "Sabão super delicado e ceboso"
     image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
     category: {
       create: {
         name: "Em barra"
+        slug: "em-barra"
         image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
         subCategories: {
-          set: [
-             "Peles secas"
-          ]
+          create: {
+            name: "Peles secas"
+            slug: "peles-secas"
+          }
         }
       }
     }
@@ -31,16 +39,24 @@ mutation {
     price: 10000
     stockQuantity: 10
     name: "Óleo de castanha do pará"
+    slug: "oleo-para"
     description: "Sabão super delicado e ceboso"
     image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
     category: {
       create: {
         name: "Líquido"
+        slug: "liquido"
         image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
         subCategories: {
-          set: [
-             "Peles cebosas"
-          ]
+          create: {
+            name: "Peles oleosas"
+            slug: "peles-oleosas"
+            # category: {
+            #   connect: {
+            #     name: "Líquido",
+            #   }
+            # }
+          }
         }
       }
     }
@@ -51,16 +67,23 @@ mutation {
     price: 10000
     stockQuantity: 10
     name: "Pó dental"
+    slug: "po-dental"
     description: "Melhor que Colgate"
     image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
     category: {
       create: {
         name: "Outros"
+        slug: "outros"
         image: "https://static1.squarespace.com/static/59e65fd351a5843fcb31bd6e/59e90e3529f18770c2344a06/59f0cbd62aeba54873f4708a/1511392691939/Cinnamon-Awakening.jpg?format=1500w"
         subCategories: {
-          set: [
-             "Dentes"
-          ]
+          connect: {
+            slug: "peles-oleosas"
+            # category: {
+            #   connect: {
+            #     name: "Dentes",
+            #   }
+            # }
+          }
         }
       }
     }

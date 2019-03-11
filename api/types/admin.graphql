@@ -16,3 +16,18 @@ input ProductVariantInput {
   information: String
   image: String
 }
+
+input ProductCategoryInput {
+  productId: String
+  categoryId: String
+  name: String!
+  information: String
+  image: String
+}
+
+input ProductSubCategoryInput {
+  categoryIds: [String]
+  name: String!
+  information: String
+  image: String
+}
