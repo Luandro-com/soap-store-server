@@ -2,7 +2,8 @@ mutation {
   createContent: createContent(data: {
     title: "Flor do Cerrado"
     description: "It's niceeeee"
-    logo: "https://i.ibb.co/GPnZv7x/logo.png"
+    logo: "https://i.ibb.co/8M0qCNQ/logo.png"
+    infoImage: "https://i.ibb.co/XF665fn/info.png"
   }) {
     title
   },

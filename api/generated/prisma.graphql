@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Mar 10 2019 10:19:32 GMT-0300 (-03)
+# timestamp: Sun Mar 10 2019 21:14:57 GMT-0300 (-03)
 
 type Address implements Node {
   id: ID!
@@ -1803,18 +1803,10 @@ type Content {
   metaFavicon: String
   metaKeyWords: [String!]!
   sections: [Section!]!
-  authorGuideline: String
+  infoImage: String
   description: String
-  scope: String
   contact: String
   footer: String
-  librarianInfo: String
-  privacyStatement: String
-  proofInstructions: String
-  publicationFrequency: String
-  purchaseArticleDescription: String
-  reviewGuidelines: String
-  waiverPolicy: String
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1835,18 +1827,10 @@ input ContentCreateInput {
   logo: String
   metaDescription: String
   metaFavicon: String
-  authorGuideline: String
+  infoImage: String
   description: String
-  scope: String
   contact: String
   footer: String
-  librarianInfo: String
-  privacyStatement: String
-  proofInstructions: String
-  publicationFrequency: String
-  purchaseArticleDescription: String
-  reviewGuidelines: String
-  waiverPolicy: String
   metaKeyWords: ContentCreatemetaKeyWordsInput
   sections: ContentCreatesectionsInput
 }
@@ -1879,30 +1863,14 @@ enum ContentOrderByInput {
   metaDescription_DESC
   metaFavicon_ASC
   metaFavicon_DESC
-  authorGuideline_ASC
-  authorGuideline_DESC
+  infoImage_ASC
+  infoImage_DESC
   description_ASC
   description_DESC
-  scope_ASC
-  scope_DESC
   contact_ASC
   contact_DESC
   footer_ASC
   footer_DESC
-  librarianInfo_ASC
-  librarianInfo_DESC
-  privacyStatement_ASC
-  privacyStatement_DESC
-  proofInstructions_ASC
-  proofInstructions_DESC
-  publicationFrequency_ASC
-  publicationFrequency_DESC
-  purchaseArticleDescription_ASC
-  purchaseArticleDescription_DESC
-  reviewGuidelines_ASC
-  reviewGuidelines_DESC
-  waiverPolicy_ASC
-  waiverPolicy_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1919,18 +1887,10 @@ type ContentPreviousValues {
   metaFavicon: String
   metaKeyWords: [String!]!
   sections: [Section!]!
-  authorGuideline: String
+  infoImage: String
   description: String
-  scope: String
   contact: String
   footer: String
-  librarianInfo: String
-  privacyStatement: String
-  proofInstructions: String
-  publicationFrequency: String
-  purchaseArticleDescription: String
-  reviewGuidelines: String
-  waiverPolicy: String
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1980,18 +1940,10 @@ input ContentUpdateManyMutationInput {
   logo: String
   metaDescription: String
   metaFavicon: String
-  authorGuideline: String
+  infoImage: String
   description: String
-  scope: String
   contact: String
   footer: String
-  librarianInfo: String
-  privacyStatement: String
-  proofInstructions: String
-  publicationFrequency: String
-  purchaseArticleDescription: String
-  reviewGuidelines: String
-  waiverPolicy: String
   metaKeyWords: ContentUpdatemetaKeyWordsInput
   sections: ContentUpdatesectionsInput
 }
@@ -2213,46 +2165,46 @@ input ContentWhereInput {
 
   """All values not ending with the given string."""
   metaFavicon_not_ends_with: String
-  authorGuideline: String
+  infoImage: String
 
   """All values that are not equal to given value."""
-  authorGuideline_not: String
+  infoImage_not: String
 
   """All values that are contained in given list."""
-  authorGuideline_in: [String!]
+  infoImage_in: [String!]
 
   """All values that are not contained in given list."""
-  authorGuideline_not_in: [String!]
+  infoImage_not_in: [String!]
 
   """All values less than the given value."""
-  authorGuideline_lt: String
+  infoImage_lt: String
 
   """All values less than or equal the given value."""
-  authorGuideline_lte: String
+  infoImage_lte: String
 
   """All values greater than the given value."""
-  authorGuideline_gt: String
+  infoImage_gt: String
 
   """All values greater than or equal the given value."""
-  authorGuideline_gte: String
+  infoImage_gte: String
 
   """All values containing the given string."""
-  authorGuideline_contains: String
+  infoImage_contains: String
 
   """All values not containing the given string."""
-  authorGuideline_not_contains: String
+  infoImage_not_contains: String
 
   """All values starting with the given string."""
-  authorGuideline_starts_with: String
+  infoImage_starts_with: String
 
   """All values not starting with the given string."""
-  authorGuideline_not_starts_with: String
+  infoImage_not_starts_with: String
 
   """All values ending with the given string."""
-  authorGuideline_ends_with: String
+  infoImage_ends_with: String
 
   """All values not ending with the given string."""
-  authorGuideline_not_ends_with: String
+  infoImage_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -2293,46 +2245,6 @@ input ContentWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
-  scope: String
-
-  """All values that are not equal to given value."""
-  scope_not: String
-
-  """All values that are contained in given list."""
-  scope_in: [String!]
-
-  """All values that are not contained in given list."""
-  scope_not_in: [String!]
-
-  """All values less than the given value."""
-  scope_lt: String
-
-  """All values less than or equal the given value."""
-  scope_lte: String
-
-  """All values greater than the given value."""
-  scope_gt: String
-
-  """All values greater than or equal the given value."""
-  scope_gte: String
-
-  """All values containing the given string."""
-  scope_contains: String
-
-  """All values not containing the given string."""
-  scope_not_contains: String
-
-  """All values starting with the given string."""
-  scope_starts_with: String
-
-  """All values not starting with the given string."""
-  scope_not_starts_with: String
-
-  """All values ending with the given string."""
-  scope_ends_with: String
-
-  """All values not ending with the given string."""
-  scope_not_ends_with: String
   contact: String
 
   """All values that are not equal to given value."""
@@ -2413,286 +2325,6 @@ input ContentWhereInput {
 
   """All values not ending with the given string."""
   footer_not_ends_with: String
-  librarianInfo: String
-
-  """All values that are not equal to given value."""
-  librarianInfo_not: String
-
-  """All values that are contained in given list."""
-  librarianInfo_in: [String!]
-
-  """All values that are not contained in given list."""
-  librarianInfo_not_in: [String!]
-
-  """All values less than the given value."""
-  librarianInfo_lt: String
-
-  """All values less than or equal the given value."""
-  librarianInfo_lte: String
-
-  """All values greater than the given value."""
-  librarianInfo_gt: String
-
-  """All values greater than or equal the given value."""
-  librarianInfo_gte: String
-
-  """All values containing the given string."""
-  librarianInfo_contains: String
-
-  """All values not containing the given string."""
-  librarianInfo_not_contains: String
-
-  """All values starting with the given string."""
-  librarianInfo_starts_with: String
-
-  """All values not starting with the given string."""
-  librarianInfo_not_starts_with: String
-
-  """All values ending with the given string."""
-  librarianInfo_ends_with: String
-
-  """All values not ending with the given string."""
-  librarianInfo_not_ends_with: String
-  privacyStatement: String
-
-  """All values that are not equal to given value."""
-  privacyStatement_not: String
-
-  """All values that are contained in given list."""
-  privacyStatement_in: [String!]
-
-  """All values that are not contained in given list."""
-  privacyStatement_not_in: [String!]
-
-  """All values less than the given value."""
-  privacyStatement_lt: String
-
-  """All values less than or equal the given value."""
-  privacyStatement_lte: String
-
-  """All values greater than the given value."""
-  privacyStatement_gt: String
-
-  """All values greater than or equal the given value."""
-  privacyStatement_gte: String
-
-  """All values containing the given string."""
-  privacyStatement_contains: String
-
-  """All values not containing the given string."""
-  privacyStatement_not_contains: String
-
-  """All values starting with the given string."""
-  privacyStatement_starts_with: String
-
-  """All values not starting with the given string."""
-  privacyStatement_not_starts_with: String
-
-  """All values ending with the given string."""
-  privacyStatement_ends_with: String
-
-  """All values not ending with the given string."""
-  privacyStatement_not_ends_with: String
-  proofInstructions: String
-
-  """All values that are not equal to given value."""
-  proofInstructions_not: String
-
-  """All values that are contained in given list."""
-  proofInstructions_in: [String!]
-
-  """All values that are not contained in given list."""
-  proofInstructions_not_in: [String!]
-
-  """All values less than the given value."""
-  proofInstructions_lt: String
-
-  """All values less than or equal the given value."""
-  proofInstructions_lte: String
-
-  """All values greater than the given value."""
-  proofInstructions_gt: String
-
-  """All values greater than or equal the given value."""
-  proofInstructions_gte: String
-
-  """All values containing the given string."""
-  proofInstructions_contains: String
-
-  """All values not containing the given string."""
-  proofInstructions_not_contains: String
-
-  """All values starting with the given string."""
-  proofInstructions_starts_with: String
-
-  """All values not starting with the given string."""
-  proofInstructions_not_starts_with: String
-
-  """All values ending with the given string."""
-  proofInstructions_ends_with: String
-
-  """All values not ending with the given string."""
-  proofInstructions_not_ends_with: String
-  publicationFrequency: String
-
-  """All values that are not equal to given value."""
-  publicationFrequency_not: String
-
-  """All values that are contained in given list."""
-  publicationFrequency_in: [String!]
-
-  """All values that are not contained in given list."""
-  publicationFrequency_not_in: [String!]
-
-  """All values less than the given value."""
-  publicationFrequency_lt: String
-
-  """All values less than or equal the given value."""
-  publicationFrequency_lte: String
-
-  """All values greater than the given value."""
-  publicationFrequency_gt: String
-
-  """All values greater than or equal the given value."""
-  publicationFrequency_gte: String
-
-  """All values containing the given string."""
-  publicationFrequency_contains: String
-
-  """All values not containing the given string."""
-  publicationFrequency_not_contains: String
-
-  """All values starting with the given string."""
-  publicationFrequency_starts_with: String
-
-  """All values not starting with the given string."""
-  publicationFrequency_not_starts_with: String
-
-  """All values ending with the given string."""
-  publicationFrequency_ends_with: String
-
-  """All values not ending with the given string."""
-  publicationFrequency_not_ends_with: String
-  purchaseArticleDescription: String
-
-  """All values that are not equal to given value."""
-  purchaseArticleDescription_not: String
-
-  """All values that are contained in given list."""
-  purchaseArticleDescription_in: [String!]
-
-  """All values that are not contained in given list."""
-  purchaseArticleDescription_not_in: [String!]
-
-  """All values less than the given value."""
-  purchaseArticleDescription_lt: String
-
-  """All values less than or equal the given value."""
-  purchaseArticleDescription_lte: String
-
-  """All values greater than the given value."""
-  purchaseArticleDescription_gt: String
-
-  """All values greater than or equal the given value."""
-  purchaseArticleDescription_gte: String
-
-  """All values containing the given string."""
-  purchaseArticleDescription_contains: String
-
-  """All values not containing the given string."""
-  purchaseArticleDescription_not_contains: String
-
-  """All values starting with the given string."""
-  purchaseArticleDescription_starts_with: String
-
-  """All values not starting with the given string."""
-  purchaseArticleDescription_not_starts_with: String
-
-  """All values ending with the given string."""
-  purchaseArticleDescription_ends_with: String
-
-  """All values not ending with the given string."""
-  purchaseArticleDescription_not_ends_with: String
-  reviewGuidelines: String
-
-  """All values that are not equal to given value."""
-  reviewGuidelines_not: String
-
-  """All values that are contained in given list."""
-  reviewGuidelines_in: [String!]
-
-  """All values that are not contained in given list."""
-  reviewGuidelines_not_in: [String!]
-
-  """All values less than the given value."""
-  reviewGuidelines_lt: String
-
-  """All values less than or equal the given value."""
-  reviewGuidelines_lte: String
-
-  """All values greater than the given value."""
-  reviewGuidelines_gt: String
-
-  """All values greater than or equal the given value."""
-  reviewGuidelines_gte: String
-
-  """All values containing the given string."""
-  reviewGuidelines_contains: String
-
-  """All values not containing the given string."""
-  reviewGuidelines_not_contains: String
-
-  """All values starting with the given string."""
-  reviewGuidelines_starts_with: String
-
-  """All values not starting with the given string."""
-  reviewGuidelines_not_starts_with: String
-
-  """All values ending with the given string."""
-  reviewGuidelines_ends_with: String
-
-  """All values not ending with the given string."""
-  reviewGuidelines_not_ends_with: String
-  waiverPolicy: String
-
-  """All values that are not equal to given value."""
-  waiverPolicy_not: String
-
-  """All values that are contained in given list."""
-  waiverPolicy_in: [String!]
-
-  """All values that are not contained in given list."""
-  waiverPolicy_not_in: [String!]
-
-  """All values less than the given value."""
-  waiverPolicy_lt: String
-
-  """All values less than or equal the given value."""
-  waiverPolicy_lte: String
-
-  """All values greater than the given value."""
-  waiverPolicy_gt: String
-
-  """All values greater than or equal the given value."""
-  waiverPolicy_gte: String
-
-  """All values containing the given string."""
-  waiverPolicy_contains: String
-
-  """All values not containing the given string."""
-  waiverPolicy_not_contains: String
-
-  """All values starting with the given string."""
-  waiverPolicy_starts_with: String
-
-  """All values not starting with the given string."""
-  waiverPolicy_not_starts_with: String
-
-  """All values ending with the given string."""
-  waiverPolicy_ends_with: String
-
-  """All values not ending with the given string."""
-  waiverPolicy_not_ends_with: String
   updatedAt: DateTime
 
   """All values that are not equal to given value."""
@@ -10370,9 +10002,9 @@ enum Role {
 }
 
 enum Section {
-  ISSUEBANNER
-  PODCASTS
-  CALLS
+  BANNER
+  INFO
+  PRODUCTS
 }
 
 type Stores {

@@ -235,24 +235,16 @@ type Content {
   metaFavicon: String
   metaKeyWords: [String!]
   sections: [Section]
-  authorGuideline: String
+  infoImage: String
   description: String
-  scope: String
   contact: String
   footer: String
-  librarianInfo: String
-  privacyStatement: String
-  proofInstructions: String
-  publicationFrequency: String
-  purchaseArticleDescription: String
-  reviewGuidelines: String
-  waiverPolicy: String
   updatedAt: DateTime!
   createdAt: DateTime!
 }
 
 enum Section {
-  ISSUEBANNER
-  PODCASTS
-  CALLS
+  BANNER
+  INFO
+  PRODUCTS
 } 
