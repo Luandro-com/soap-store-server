@@ -5,13 +5,13 @@ const faker = require('faker')
 
 const testEmail = faker.internet.email()
 const testPassword = faker.internet.password()
-const addQuantity = 2
+const addQuantity = 3
 const removeQuantity = 1
 
 let token
 let productId
-let variantsId
-let variantsId2
+// let variantsId
+// let variantsId2
 let cartId
 let cartId2
 let addressId
@@ -79,16 +79,28 @@ module.exports = () => {
     mockFetch(user, null, token)
     .then(res => {
       t.equal(true, validator.isEmail(res.user.email))
-      t.equal(false, validator.isEmpty(res.user.cart.id))
+      // t.equal(false, validator.isEmpty(res.user.cart.id))
       t.end()
     })
   })
   // PRODUCTS
-  test('should return products and variants', (t) => {
+  test('should return products and categories', (t) => {
     const products = `{
       products {
         id
+        slug
         name
+        image
+        category {
+          id
+          name
+          slug
+        }
+        subCategories {
+          id
+          name
+          slug
+        }
         variants {
           id
           name
@@ -97,11 +109,11 @@ module.exports = () => {
     }`
     mockFetch(products)
     .then(res => {
-      variantsId = res.products[0].variants[0].id
-      variantsId2 = res.products[0].variants[1].id
+      // variantsId = res.products[0].variants[0].id
+      // variantsId2 = res.products[0].variants[1].id
       productId = res.products[0].id
       t.equal(false, validator.isEmpty(res.products[0].name))
-      t.equal(false, validator.isEmpty(res.products[0].variants[0].name))
+      // t.equal(false, validator.isEmpty(res.products[0].variants[0].name))
       t.end()
     })
   })
@@ -126,7 +138,7 @@ module.exports = () => {
     const variables = {
       input: {
         productId,
-        variantsIds: [variantsId],
+        // variantsIds: [variantsId],
         quantity: addQuantity,
       }
     }
@@ -135,51 +147,6 @@ module.exports = () => {
       // console.log('res', res.addToCart.products[0])
       t.equal(addQuantity, res.addToCart.products[0].quantity)
       t.equal(false, validator.isEmpty(res.addToCart.products[0].id))
-      t.end()
-    })
-  })
-  // ADDTOCART VARIANTS
-  test(`should add ${addQuantity} products to the cart with ${variantsId2} and return the cart`, (t) => {
-    const addToCart = `
-      mutation($input: CartInput!) {
-        addToCart(input: $input) {
-          products {
-            id
-            quantity
-            product {
-              name
-            }
-            variants {
-              name
-            }
-          }
-        }
-      }
-    `
-    const variables = {
-      input: {
-        productId,
-        variantsIds: [
-          variantsId,
-          variantsId,
-          variantsId,
-          variantsId,
-          variantsId,
-          variantsId,
-          variantsId2,
-          variantsId2,
-          variantsId2,
-          variantsId2,
-          variantsId2,
-          variantsId2,
-        ],
-        quantity: addQuantity,
-      }
-    }
-    mockFetch(addToCart, variables, token)
-    .then(res => {
-      t.equal(addQuantity, res.addToCart.products[1].quantity)
-      t.equal(false, validator.isEmpty(res.addToCart.products[1].id))
       t.end()
     })
   })
@@ -204,7 +171,7 @@ module.exports = () => {
     const variables = {
       input: {
         productId,
-        variantsIds: [variantsId],
+        // variantsIds: [variantsId],
         quantity: removeQuantity,
       }
     }
@@ -240,7 +207,7 @@ module.exports = () => {
     const variables = {
       input: {
         productId,
-        variantsIds: [variantsId],
+        // variantsIds: [variantsId],
         quantity: removeQuantity,
       }
     }

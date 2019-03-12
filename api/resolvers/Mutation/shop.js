@@ -3,9 +3,12 @@ const { simpleTransaction, } = require('../../services/payment/pagseguro')
 const camel = require('camelcase')
 
 const getSameItem = (products, productId, variantsIds) => products.filter(p => {
-  let formatedVariantes = []
-  p.variants.filter(v => formatedVariantes.push(v.id))
-  return (p.product.id === productId && formatedVariantes.length === variantsIds.length && formatedVariantes.sort().every(function(value, index) { return value === variantsIds.sort()[index]}))
+  if (variantsIds) {
+    let formatedVariantes = []
+    p.variants.filter(v => formatedVariantes.push(v.id))
+    return (p.product.id === productId && formatedVariantes.length === variantsIds.length && formatedVariantes.sort().every((value, index) => { return value === variantsIds.sort()[index]}))
+  }
+  return p.product.id === productId
 })[0]
 
 const shop = {
@@ -88,9 +91,21 @@ const shop = {
   },
   async addToCart(parent, args, ctx, info) {
     const { input: { productId, quantity, variantsIds } } = args
-    if (variantsIds.length !== 1 && variantsIds.length !== 12) throw 'Variants must be 1 or 12'
+    if (variantsIds && variantsIds.length !== 1 && variantsIds.length !== 12) throw 'Variants must be 1 or 12'
     const id = getUserId(ctx)
-    const { cart } = await ctx.db.query.user({ where: { id } }, `{ cart { id products { id product { id } variants { id } quantity } } }`)
+    let cart
+    cart = await ctx.db.query.user({ where: { id } }, `{ cart { id products { id product { id } variants { id } quantity } } }`).cart
+    if (!cart) {
+      cart = await ctx.db.mutation.createCart({
+        data: {
+          customer: {
+            connect: {
+              id
+            }
+          }
+        }
+      }, `{ id products { id } }`)
+    }
     const sameItem = getSameItem(cart.products, productId, variantsIds)
     if(sameItem) {
       await ctx.db.mutation.updateCartItem({
@@ -100,14 +115,23 @@ const shop = {
         }
       })
     } else {
-      let variants = {}
-      await variantsIds.map(v => Object.assign(variants, { connect: { id: v } }))
-      await ctx.db.mutation.createCartItem({ data: {
-        quantity,
-        cart: { connect: { id: cart.id } },
-        product: { connect: { id: productId }},
-        variants,
-      }})
+      if (variantsIds) {
+        let variants = {}
+        await variantsIds.map(v => Object.assign(variants, { connect: { id: v } }))
+        await ctx.db.mutation.createCartItem({ data: {
+          quantity,
+          cart: { connect: { id: cart.id } },
+          product: { connect: { id: productId }},
+          variants,
+        }})
+    
+      } else {
+        await ctx.db.mutation.createCartItem({ data: {
+          quantity,
+          cart: { connect: { id: cart.id } },
+          product: { connect: { id: productId }},
+        }}) 
+      }
     }
     const userCart = await ctx.db.query.cart({ where: { id: cart.id } }, info)
     return userCart
@@ -141,6 +165,7 @@ const shop = {
       }})
     }
     const userCart = await ctx.db.query.cart({ where: { id: cart.id } }, info)
+    console.log('userCart', info)
     return userCart
     
   },
@@ -162,18 +187,6 @@ const shop = {
       delete input.orderId
       const payment = await simpleTransaction()
       console.log('PAYMENT', payment)
-      let formatedPayment = { creditCard: {}}
-      Object.keys(payment['Payment']).map(key => {
-        if (key !== 'CreditCard') {
-          formatedPayment[camel(key)] = payment['Payment'][key]
-        } else {
-          Object.keys(payment['Payment'][key]).map(creditKey => {
-            formatedPayment[camel(key)][camel(creditKey)] = payment['Payment'][key][creditKey]
-          })
-          
-        }
-      })
-      console.log('formatedPayment', formatedPayment)
       const {
         paymentId,
         type,

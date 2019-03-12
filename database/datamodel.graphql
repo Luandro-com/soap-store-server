@@ -19,7 +19,7 @@ type User {
   role: Role! @default(value: "CUSTOMER")
   addresses: [Address!]!
   orders: [Order!]!
-  cart: Cart!
+  cart: Cart
   payments: [Payment!]!
 }
 

@@ -1,12 +1,12 @@
-const pagseguro = require('pagseguro')
+const pagseguro = require('pagseguro.js')
 
 // Ao iniciar a instância deve-se passar os dados do
 // vendedor para obter acesso à API.
-const simpleTransaction = async () => {
+const simpleTransaction = () => new Promise((resolve, reject) => {
   const compra = pagseguro({
-    'name': process.env.PAGSEGURO_STORE_NAME,
-    'email': process.env.PAGSEGURO_EMAIL,
-    'token': process.env.PAGSEGURO_TOKEN
+    name: process.env.PAGSEGURO_STORE_NAME,
+    email: process.env.PAGSEGURO_EMAIL,
+    token: process.env.PAGSEGURO_TOKEN
   })
   
   compra.product.add({
@@ -17,13 +17,13 @@ const simpleTransaction = async () => {
     'weight': 30
   })
   
-  compra.sender({
+  compra.sender.set({
     'name': 'João da Silva',
     'email': 'comprador@uol.com.br',
     'areaCode': 11,
     'phone': '3030-3344',
     'document': '99999999999',
-    'born': 'dd/MM/yyyy'
+    'born': '14/05/1978'
   })
   
   compra.shipping.set({
@@ -40,27 +40,28 @@ const simpleTransaction = async () => {
   
   // Efetuando o request e recebendo o código de compra
   
-  return compra.checkout((err, res, body) => {
-    if( !!err === false && !!body.errors === false ) {
-      // grava os dados no banco de dados
-      // mongodb.save( body.checkout )
-      console.log('CHECKOUT', body.checkout)  
-      return body.checkout
-      // redireciona o usuário para pagamento
-      // res.redirect('https://pagseguro.uol.com.br/v2/checkout/payment.html?code=' + body.checkout.code)
+  compra.checkout((err, res, body) => {
+    if (res.body === 'Unauthorized') {
+      reject('Unauthorized')
+    } else {
+      console.log('boDY', body, res.body)
+      console.log('-----------------', err)
+      if( !!err === false && !!body.errors === false ) {
+        resolve(body.checkout)
+      } else {
+        reject('Error')
+      }
     }
   })
-}
+})
 
-const checkTransaction = (code) => {
-  // Efetuando a checagem de uma compra através do seu código
+const checkTransaction = (code) => new Promise((resolve, reject) => {
   compra.transactions(code, (err, res, body) => {
     if( !!err === false && !!res.statusCode !== 404 ) {
-      // grava os dados no banco de dados
-      // mongodb.save( body.transaction )
-    }
+      resolve(body.checkout)
+    } else reject(err)
   })
-}
+})
 
 module.exports = {
   simpleTransaction,

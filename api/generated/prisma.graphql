@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Mon Mar 11 2019 19:11:06 GMT-0300 (-03)
+# timestamp: Tue Mar 12 2019 14:56:10 GMT-0300 (-03)
 
 type Address implements Node {
   id: ID!
@@ -1681,18 +1681,20 @@ input CartUpdateOneRequiredInput {
   upsert: CartUpsertNestedInput
 }
 
-input CartUpdateOneRequiredWithoutCustomerInput {
-  create: CartCreateWithoutCustomerInput
-  connect: CartWhereUniqueInput
-  update: CartUpdateWithoutCustomerDataInput
-  upsert: CartUpsertWithoutCustomerInput
-}
-
 input CartUpdateOneRequiredWithoutProductsInput {
   create: CartCreateWithoutProductsInput
   connect: CartWhereUniqueInput
   update: CartUpdateWithoutProductsDataInput
   upsert: CartUpsertWithoutProductsInput
+}
+
+input CartUpdateOneWithoutCustomerInput {
+  create: CartCreateWithoutCustomerInput
+  connect: CartWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: CartUpdateWithoutCustomerDataInput
+  upsert: CartUpsertWithoutCustomerInput
 }
 
 input CartUpdateWithoutCustomerDataInput {
@@ -11966,7 +11968,7 @@ type User implements Node {
   role: Role!
   addresses(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Address!]
   orders(where: OrderWhereInput, orderBy: OrderOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Order!]
-  cart: Cart!
+  cart: Cart
   payments(where: PaymentWhereInput, orderBy: PaymentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Payment!]
 }
 
@@ -11990,7 +11992,7 @@ input UserCreateInput {
   posts: PostCreateManyWithoutAuthorInput
   addresses: AddressCreateManyWithoutCustomerInput
   orders: OrderCreateManyWithoutCustomerInput
-  cart: CartCreateOneWithoutCustomerInput!
+  cart: CartCreateOneWithoutCustomerInput
   payments: PaymentCreateManyWithoutCustomerInput
 }
 
@@ -12028,7 +12030,7 @@ input UserCreateWithoutAddressesInput {
   role: Role
   posts: PostCreateManyWithoutAuthorInput
   orders: OrderCreateManyWithoutCustomerInput
-  cart: CartCreateOneWithoutCustomerInput!
+  cart: CartCreateOneWithoutCustomerInput
   payments: PaymentCreateManyWithoutCustomerInput
 }
 
@@ -12054,7 +12056,7 @@ input UserCreateWithoutOrdersInput {
   role: Role
   posts: PostCreateManyWithoutAuthorInput
   addresses: AddressCreateManyWithoutCustomerInput
-  cart: CartCreateOneWithoutCustomerInput!
+  cart: CartCreateOneWithoutCustomerInput
   payments: PaymentCreateManyWithoutCustomerInput
 }
 
@@ -12068,7 +12070,7 @@ input UserCreateWithoutPaymentsInput {
   posts: PostCreateManyWithoutAuthorInput
   addresses: AddressCreateManyWithoutCustomerInput
   orders: OrderCreateManyWithoutCustomerInput
-  cart: CartCreateOneWithoutCustomerInput!
+  cart: CartCreateOneWithoutCustomerInput
 }
 
 input UserCreateWithoutPostsInput {
@@ -12080,7 +12082,7 @@ input UserCreateWithoutPostsInput {
   role: Role
   addresses: AddressCreateManyWithoutCustomerInput
   orders: OrderCreateManyWithoutCustomerInput
-  cart: CartCreateOneWithoutCustomerInput!
+  cart: CartCreateOneWithoutCustomerInput
   payments: PaymentCreateManyWithoutCustomerInput
 }
 
@@ -12173,7 +12175,7 @@ input UserUpdateInput {
   posts: PostUpdateManyWithoutAuthorInput
   addresses: AddressUpdateManyWithoutCustomerInput
   orders: OrderUpdateManyWithoutCustomerInput
-  cart: CartUpdateOneRequiredWithoutCustomerInput
+  cart: CartUpdateOneWithoutCustomerInput
   payments: PaymentUpdateManyWithoutCustomerInput
 }
 
@@ -12230,7 +12232,7 @@ input UserUpdateWithoutAddressesDataInput {
   role: Role
   posts: PostUpdateManyWithoutAuthorInput
   orders: OrderUpdateManyWithoutCustomerInput
-  cart: CartUpdateOneRequiredWithoutCustomerInput
+  cart: CartUpdateOneWithoutCustomerInput
   payments: PaymentUpdateManyWithoutCustomerInput
 }
 
@@ -12256,7 +12258,7 @@ input UserUpdateWithoutOrdersDataInput {
   role: Role
   posts: PostUpdateManyWithoutAuthorInput
   addresses: AddressUpdateManyWithoutCustomerInput
-  cart: CartUpdateOneRequiredWithoutCustomerInput
+  cart: CartUpdateOneWithoutCustomerInput
   payments: PaymentUpdateManyWithoutCustomerInput
 }
 
@@ -12270,7 +12272,7 @@ input UserUpdateWithoutPaymentsDataInput {
   posts: PostUpdateManyWithoutAuthorInput
   addresses: AddressUpdateManyWithoutCustomerInput
   orders: OrderUpdateManyWithoutCustomerInput
-  cart: CartUpdateOneRequiredWithoutCustomerInput
+  cart: CartUpdateOneWithoutCustomerInput
 }
 
 input UserUpdateWithoutPostsDataInput {
@@ -12282,7 +12284,7 @@ input UserUpdateWithoutPostsDataInput {
   role: Role
   addresses: AddressUpdateManyWithoutCustomerInput
   orders: OrderUpdateManyWithoutCustomerInput
-  cart: CartUpdateOneRequiredWithoutCustomerInput
+  cart: CartUpdateOneWithoutCustomerInput
   payments: PaymentUpdateManyWithoutCustomerInput
 }
 

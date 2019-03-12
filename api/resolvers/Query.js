@@ -36,6 +36,14 @@ const Query = {
   },
 
   products(parent, args, ctx, info) {
+    const { id, category, subCategory } = args
+    if (id) {
+      return ctx.db.query.product({ where: { id }}, info)
+    } else if (category) {
+      return ctx.db.query.products({ where: { category: { slug } }}, info)
+    } else if (subCategory) {
+      return ctx.db.query.products({ where: { subCategories: { slug } }}, info)
+    }
     return ctx.db.query.products(null, info)
   },
 
