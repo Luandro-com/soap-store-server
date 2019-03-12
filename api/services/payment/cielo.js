@@ -1,6 +1,6 @@
 const cielo = require('cielo')({
-  'MerchantId': process.env.MERCHANT_ID,
-  'MerchantKey': process.env.MERCHANT_KEY,
+  'MerchantId': process.env.CIELO_MERCHANT_ID,
+  'MerchantKey': process.env.CIELO_MERCHANT_KEY,
   // 'RequestId': 'xxxxxxx', // Opcional - Identificação do Servidor na Cielo
   'sandbox': true, // Opcional - Ambiente de Testes
   'debug': true // Opcional - Exibe os dados enviados na requisição para a Cielo

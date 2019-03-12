@@ -1,5 +1,5 @@
 const { getUserId } = require('../../services/auth/utils')
-const { simpleTransaction, } = require('../../services/payment')
+const { simpleTransaction, } = require('../../services/payment/pagseguro')
 const camel = require('camelcase')
 
 const getSameItem = (products, productId, variantsIds) => products.filter(p => {
