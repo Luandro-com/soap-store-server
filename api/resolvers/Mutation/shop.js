@@ -96,7 +96,8 @@ const shop = {
     if (variantsIds && variantsIds.length !== 1 && variantsIds.length !== 12) throw 'Variants must be 1 or 12'
     const id = getUserId(ctx)
     let cart
-    cart = await ctx.db.query.user({ where: { id } }, `{ cart { id products { id product { id } variants { id } quantity } } }`).cart
+    const existingCart = await ctx.db.query.user({ where: { id } }, `{ cart { id products { id product { id } variants { id } quantity } } }`)
+    cart = existingCart.cart
     if (!cart) {
       cart = await ctx.db.mutation.createCart({
         data: {
