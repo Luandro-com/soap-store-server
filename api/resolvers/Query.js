@@ -45,11 +45,13 @@ const Query = {
   },
 
   products(parent, args, ctx, info) {
+    console.log(args)
     const { id, slug, category, subCategory } = args
+    console.log('-----------------------------', category, subCategory)
     if (category) {
-      return ctx.db.query.products({ where: { category: { slug } }}, info)
+      return ctx.db.query.products({ where: { category: { slug: category } }}, info)
     } else if (subCategory) {
-      return ctx.db.query.products({ where: { subCategories: { slug } }}, info)
+      return ctx.db.query.products({ where: { subCategories: { slug: subCategory } }}, info)
     }
     return ctx.db.query.products(null, info)
   },

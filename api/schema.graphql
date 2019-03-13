@@ -11,7 +11,7 @@ type Query {
   post(id: ID!): Post
   productCategories: [ProductCategory!]!
   product(id: ID, slug: String): Product
-  products(id: ID, slug: String, category: String, subCategory: String): [Product]
+  products(category: String, subCategory: String): [Product]
   user: User
   users: [User]
   allCarts: [Cart]
