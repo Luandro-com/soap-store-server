@@ -23,7 +23,7 @@
     "apollo-server": "^2.4.8",
     "apollo-server-express": "^2.4.8",
     "apollo-upload-client": "^10.0.0",
-    "aws-sdk": "^2.418.0",
+    "aws-sdk": "^2.421.0",
     "bcryptjs": "^2.4.3",
     "camelcase": "^5.2.0",
     "cielo": "^1.1.0",
@@ -43,7 +43,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "dotenv": "^6.2.0",
+    "dotenv": "^7.0.0",
     "faker": "^4.1.0",
     "graphql-cli": "^3.0.11",
     "mkdirp": "^0.5.1",
