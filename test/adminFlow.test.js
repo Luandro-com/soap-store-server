@@ -14,6 +14,7 @@ let userId
 let productId
 let variantId
 let categoryId
+let subCategoryId
 let orderId
 
 module.exports = () => {
@@ -366,6 +367,79 @@ module.exports = () => {
     mockFetch(saveProductCategory, variables, tokens.customer)
       .then(res => {
         t.false(res.saveProductCategory)
+      })
+  })
+  // SAVE PRODUCT SUBCATEGORY
+  test(`Should create and update a product sub-category if ADMIN and fail is customer or editor.`, (t) => {
+    const saveProductSubCategory = `
+      mutation($input: ProductSubCategoryInput!) {
+        saveProductSubCategory(input: $input) {
+          id
+          name
+          slug
+          information
+          image
+        }
+      }
+    `
+    const variables = {
+      input: {
+        categoryId,
+        name: faker.commerce.productName(),
+        information: faker.commerce.color(),
+        image: faker.image.food(),
+      }
+    }
+    const variables2 = {
+      input: {
+        categoryId,
+        subCategoryId,
+        name: faker.commerce.productName(),
+        information: faker.commerce.color(),
+        image: faker.image.food(),
+      }
+    }
+
+
+    mockFetch(saveProductSubCategory, variables, tokens.admin)
+      .then(res => {
+        subCategoryId = res.saveProductSubCategory.id
+        t.ok(res.saveProductSubCategory.id)
+        t.ok(res.saveProductSubCategory)
+        mockFetch(saveProductSubCategory, variables2, tokens.admin)
+          .then(updateRes => {
+            t.equal(variables2.input.name, updateRes.saveProductSubCategory.name)
+            t.end()
+          })
+      })
+    mockFetch(saveProductSubCategory, variables, tokens.editor)
+      .then(res => {
+        t.false(res.saveProductSubCategory)
+      })
+    mockFetch(saveProductSubCategory, variables, tokens.customer)
+      .then(res => {
+        t.false(res.saveProductSubCategory)
+      })
+  })
+  // REMOVE PRODUCT SUBCATEGORY
+  test(`Should remove product sub-category if ADMIN and fail is customer or editor.`, (t) => {
+    const removeProductSubCategory = `
+      mutation($subCategoryId: ID!) {
+        removeProductSubCategory(subCategoryId: $subCategoryId)
+      }
+    `
+    mockFetch(removeProductSubCategory, { subCategoryId }, tokens.admin)
+      .then(removeRes => {
+        t.ok(removeRes.removeProductSubCategory)
+        t.end()
+      })
+    mockFetch(removeProductSubCategory, { subCategoryId }, tokens.editor)
+      .then(res => {
+        t.false(res.removeProduct)
+      })
+    mockFetch(removeProductSubCategory, { subCategoryId }, tokens.editor)
+      .then(res => {
+        t.false(res.removeProduct)
       })
   })
   // REMOVE PRODUCT CATEGORY

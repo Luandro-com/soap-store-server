@@ -40,10 +40,12 @@ type Mutation {
   payment(input: PaymentInput): Payment
   saveProductVariant(input: ProductVariantInput): ProductVariant
   saveProductCategory(input: ProductCategoryInput): ProductCategory
+  saveProductSubCategory(input: ProductSubCategoryInput): ProductSubCategory
   saveProduct(input: ProductInput): Product
   removeProduct(productId: ID!): ID!
   removeProductVariant(variantId: ID!): ID!
   removeProductCategory(categoryId: ID!): ID!
+  removeProductSubCategory(subCategoryId: ID!): ID!
   updateOrderStatus(orderId: ID! status: OrderStatus!): Order
   updateContent(input: ContentInput!): Content
   uploadFile(file: Upload!): File

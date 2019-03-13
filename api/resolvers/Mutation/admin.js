@@ -73,6 +73,31 @@ const admin = {
     console.log('ID', id)
     return id
   },
+  async saveProductSubCategory(parent, { input }, ctx, info) {
+    let validInputs = {
+      categories: {}
+    }
+    Object.keys(input).map(i => {
+      if (i === 'categoryId') {
+        validInputs.categories = { connect: { id: input[i]} }
+      } else {
+        validInputs[i] = input[i]
+      }
+    })
+    if (input.name && !input.slug) {
+      validInputs.slug = slugify(input.name)
+    }
+    return await ctx.db.mutation.upsertProductSubCategory({
+      update: validInputs,
+      where: { id: input.subCategoryId || "" },
+      create: validInputs,
+    }, info)
+  },
+  async removeProductSubCategory(parent, { subCategoryId }, ctx, info) {
+    const { id } = await ctx.db.mutation.deleteProductSubCategory({ where: { id: subCategoryId } })
+    console.log('ID', id)
+    return id
+  },
   async updateOrderStatus(parent, { orderId, status }, ctx, info) {
     return await ctx.db.mutation.updateOrder({
       where: { id: orderId },

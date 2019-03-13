@@ -112,7 +112,7 @@ type ProductSubCategory {
   slug: String! @unique
   image: String
   information: String
-  categories: [ProductCategory]
+  categories: [ProductCategory!]!
 }
 
 type Cupom {

@@ -28,7 +28,8 @@ input ProductCategoryInput {
 }
 
 input ProductSubCategoryInput {
-  categoryIds: [String]
+  categoryId: String
+  subCategoryId: String
   name: String
   slug: String
   information: String

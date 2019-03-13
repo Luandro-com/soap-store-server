@@ -52,6 +52,10 @@ module.exports = shield({
     removeProduct: and(isAuthenticated, isAdmin),
     saveProductVariant: and(isAuthenticated, isAdmin),
     removeProductVariant: and(isAuthenticated, isAdmin),
+    saveProductCategory: and(isAuthenticated, isAdmin),
+    removeProductCategory: and(isAuthenticated, isAdmin),
+    saveProductSubCategory: and(isAuthenticated, isAdmin),
+    removeProductSubCategory: and(isAuthenticated, isAdmin),
     updateOrderStatus: and(isAuthenticated, isAdmin),
   },
 }, {
