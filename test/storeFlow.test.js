@@ -352,27 +352,27 @@ module.exports = () => {
     .catch(err => console.log(err))
   })
   // PAYMENT
-  test(`should start payment for order ${orderId} and return payment`, (t) => {
-    console.log('orderId', orderId)
-    const payment = `
-      mutation($input: PaymentInput!) {
-        payment(input: $input) {
-          id
-          status
-        }
-      }
-    `
-    const variables = {
-      input: {
-        method: 'CREDIT',
-        orderId: orderId
-      }
-    }
-    mockFetch(payment, variables, token)
-    .then(res => {
-      t.equal(true, (res.payment.id !== null))
-      t.end()
-    })
-    .catch(err => console.log(err))
-  })
+  // test(`should start payment for order ${orderId} and return payment`, (t) => {
+  //   console.log('orderId', orderId)
+  //   const payment = `
+  //     mutation($input: PaymentInput!) {
+  //       payment(input: $input) {
+  //         id
+  //         status
+  //       }
+  //     }
+  //   `
+  //   const variables = {
+  //     input: {
+  //       method: 'CREDIT',
+  //       orderId: orderId
+  //     }
+  //   }
+  //   mockFetch(payment, variables, token)
+  //   .then(res => {
+  //     t.equal(true, (res.payment.id !== null))
+  //     t.end()
+  //   })
+  //   .catch(err => console.log(err))
+  // })
 }

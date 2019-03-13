@@ -1,6 +1,7 @@
 input ProductInput {
   productId: String
   name: String
+  slug: String
   price: Int
   stockQuantity: Int
   description: String
@@ -20,14 +21,16 @@ input ProductVariantInput {
 input ProductCategoryInput {
   productId: String
   categoryId: String
-  name: String!
+  name: String
+  slug: String
   information: String
   image: String
 }
 
 input ProductSubCategoryInput {
   categoryIds: [String]
-  name: String!
+  name: String
+  slug: String
   information: String
   image: String
 }

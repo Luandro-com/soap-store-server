@@ -159,6 +159,7 @@ enum OrderStatus {
   PACKAGING
   SHIPPED
   DELIVERED
+  PAYED
 }
 
 type Payment {

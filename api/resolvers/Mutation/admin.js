@@ -1,5 +1,6 @@
-const { getUserId } = require('../../services/auth/utils'
-)
+const { getUserId } = require('../../services/auth/utils')
+const slugify = require('@sindresorhus/slugify')
+
 const admin = {
   async updateUserRole(parent, { userId, role }, ctx, info) {
     return await ctx.db.mutation.updateUser({
@@ -8,6 +9,9 @@ const admin = {
     }, info)
   },
   async saveProduct(parent, { input }, ctx, info) {
+    if (input.name && !input.slug) {
+      input.slug = slugify(input.name)
+    }
     return await ctx.db.mutation.upsertProduct({
       update: input,
       where: { id: input.productId || "" },
@@ -30,6 +34,9 @@ const admin = {
         validInputs[i] = input[i]
       }
     })
+    if (input.name && !input.slug) {
+      validInputs.slug = slugify(input.name)
+    }
     return await ctx.db.mutation.upsertProductVariant({
       update: validInputs,
       where: { id: input.variantId || "" },
@@ -43,23 +50,26 @@ const admin = {
   },
   async saveProductCategory(parent, { input }, ctx, info) {
     let validInputs = {
-      product: {}
+      products: {}
     }
     Object.keys(input).map(i => {
       if (i === 'productId') {
-        validInputs.product = { connect: { id: input[i]} }
+        validInputs.products = { connect: { id: input[i]} }
       } else {
         validInputs[i] = input[i]
       }
     })
-    return await ctx.db.mutation.upsertProductVariant({
+    if (input.name && !input.slug) {
+      validInputs.slug = slugify(input.name)
+    }
+    return await ctx.db.mutation.upsertProductCategory({
       update: validInputs,
-      where: { id: input.variantId || "" },
+      where: { id: input.categoryId || "" },
       create: validInputs,
     }, info)
   },
-  async removeProductCategory(parent, { variantId }, ctx, info) {
-    const { id } = await ctx.db.mutation.deleteProductVariant({ where: { id: variantId } })
+  async removeProductCategory(parent, { categoryId }, ctx, info) {
+    const { id } = await ctx.db.mutation.deleteProductCategory({ where: { id: categoryId } })
     console.log('ID', id)
     return id
   },

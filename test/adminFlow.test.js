@@ -13,6 +13,7 @@ let tokens = {
 let userId
 let productId
 let variantId
+let categoryId
 let orderId
 
 module.exports = () => {
@@ -135,29 +136,29 @@ module.exports = () => {
       })
   })
   // PAYMENTS
-  test(`Should get all payments if admin and fail if editor or user`, (t) => {
-    t.plan(testEmails.length)
-    const payments = `{
-      payments {
-        id
-        customer {
-          email
-        }
-      }
-    }`
-    mockFetch(payments, null, tokens.admin)
-      .then(res => {
-        t.equal(true, validator.isEmail(res.payments[0].customer.email))
-      })
-    mockFetch(payments, null, tokens.editor)
-      .then(res => {
-        t.false(res.payments)
-      })
-    mockFetch(payments, null, tokens.customer)
-      .then(res => {
-        t.false(res.payments)
-      })
-  })
+  // test(`Should get all payments if admin and fail if editor or user`, (t) => {
+  //   t.plan(testEmails.length)
+  //   const payments = `{
+  //     payments {
+  //       id
+  //       customer {
+  //         email
+  //       }
+  //     }
+  //   }`
+  //   mockFetch(payments, null, tokens.admin)
+  //     .then(res => {
+  //       t.equal(true, validator.isEmail(res.payments[0].customer.email))
+  //     })
+  //   mockFetch(payments, null, tokens.editor)
+  //     .then(res => {
+  //       t.false(res.payments)
+  //     })
+  //   mockFetch(payments, null, tokens.customer)
+  //     .then(res => {
+  //       t.false(res.payments)
+  //     })
+  // })
   // UPDATE USER ROLE
   test(`Should update user role to EDITOR and back to CUSTOMER if admin and fail if editor or user`, (t) => {
     const updateUserRole = `
@@ -194,13 +195,16 @@ module.exports = () => {
           id
           name
           price
+          slug
         }
       }
     `
+    const name1 = faker.commerce.productName()
+    const name2 = faker.commerce.productName()
     const variables = {
       input: {
         price: faker.random.number(),
-        name: faker.commerce.productName(),
+        name: name1,
         stockQuantity: faker.random.number(),
         description: faker.commerce.color(),
         image: faker.image.food(),
@@ -211,7 +215,7 @@ module.exports = () => {
       input: {
         productId,
         price: faker.random.number(),
-        name: faker.commerce.productName(),
+        name: name2,
         stockQuantity: faker.random.number(),
         description: faker.commerce.color(),
         image: faker.image.food(),
@@ -246,6 +250,7 @@ module.exports = () => {
         saveProductVariant(input: $input) {
           id
           name
+          slug
           information
           image
         }
@@ -307,6 +312,79 @@ module.exports = () => {
         t.false(res.removeProduct)
       })
     mockFetch(removeProductVariant, { variantId }, tokens.editor)
+      .then(res => {
+        t.false(res.removeProduct)
+      })
+  })
+  // SAVE PRODUCT CATEGORY
+  test(`Should create and update a product category if ADMIN and fail is customer or editor.`, (t) => {
+    const saveProductCategory = `
+      mutation($input: ProductCategoryInput!) {
+        saveProductCategory(input: $input) {
+          id
+          name
+          slug
+          information
+          image
+        }
+      }
+    `
+    const variables = {
+      input: {
+        productId,
+        name: faker.commerce.productName(),
+        information: faker.commerce.color(),
+        image: faker.image.food(),
+      }
+    }
+    const variables2 = {
+      input: {
+        productId,
+        categoryId,
+        name: faker.commerce.productName(),
+        information: faker.commerce.color(),
+        image: faker.image.food(),
+      }
+    }
+
+
+    mockFetch(saveProductCategory, variables, tokens.admin)
+      .then(res => {
+        categoryId = res.saveProductCategory.id
+        t.ok(res.saveProductCategory.id)
+        t.ok(res.saveProductCategory)
+        mockFetch(saveProductCategory, variables2, tokens.admin)
+          .then(updateRes => {
+            t.equal(variables2.input.name, updateRes.saveProductCategory.name)
+            t.end()
+          })
+      })
+    mockFetch(saveProductCategory, variables, tokens.editor)
+      .then(res => {
+        t.false(res.saveProductCategory)
+      })
+    mockFetch(saveProductCategory, variables, tokens.customer)
+      .then(res => {
+        t.false(res.saveProductCategory)
+      })
+  })
+  // REMOVE PRODUCT CATEGORY
+  test(`Should remove product category if ADMIN and fail is customer or editor.`, (t) => {
+    const removeProductCategory = `
+      mutation($categoryId: ID!) {
+        removeProductCategory(categoryId: $categoryId)
+      }
+    `
+    mockFetch(removeProductCategory, { categoryId }, tokens.admin)
+      .then(removeRes => {
+        t.ok(removeRes.removeProductCategory)
+        t.end()
+      })
+    mockFetch(removeProductCategory, { categoryId }, tokens.editor)
+      .then(res => {
+        t.false(res.removeProduct)
+      })
+    mockFetch(removeProductCategory, { categoryId }, tokens.editor)
       .then(res => {
         t.false(res.removeProduct)
       })

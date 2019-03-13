@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Mar 12 2019 14:56:10 GMT-0300 (-03)
+# timestamp: Tue Mar 12 2019 21:29:40 GMT-0300 (-03)
 
 type Address implements Node {
   id: ID!
@@ -4640,6 +4640,7 @@ enum OrderStatus {
   PACKAGING
   SHIPPED
   DELIVERED
+  PAYED
 }
 
 type OrderSubscriptionPayload {

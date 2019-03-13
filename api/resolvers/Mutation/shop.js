@@ -63,8 +63,10 @@ const shop = {
       return prev.product.price + curr.procut.price
     })
     console.log('PRICE', price)
+    const { code } = await simpleTransaction()
+    console.log('code', code)
     const order = await ctx.db.mutation.upsertOrder({
-      where: { id: orderId || '' },
+      where: { id: code},
       update: { ...input },
       create: {
         ...input,
