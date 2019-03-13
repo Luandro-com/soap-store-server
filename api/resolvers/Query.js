@@ -35,11 +35,18 @@ const Query = {
     return ctx.db.query.productCategories(null, info)
   },
 
-  products(parent, args, ctx, info) {
-    const { id, category, subCategory } = args
+  product(parent, args, ctx, info) {
+    const { id, slug} = args
     if (id) {
       return ctx.db.query.product({ where: { id }}, info)
-    } else if (category) {
+    } else if (slug) {
+      return ctx.db.query.product({ where: { slug }}, info)
+    }
+  },
+
+  products(parent, args, ctx, info) {
+    const { id, slug, category, subCategory } = args
+    if (category) {
       return ctx.db.query.products({ where: { category: { slug } }}, info)
     } else if (subCategory) {
       return ctx.db.query.products({ where: { subCategories: { slug } }}, info)
