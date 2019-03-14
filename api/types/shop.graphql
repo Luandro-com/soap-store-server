@@ -35,3 +35,28 @@ input ContentInput {
   contact: String
   footer: String
 }
+
+type ShippingData {
+  value: Int
+  deliveryDays: Int
+  valueWithoutAddition: Int
+  valueHandling: Int
+  valueReceive: Int
+  valueDeclaredValue: Int
+}
+
+type Shipping {
+  sedex: ShippingData
+  pac: ShippingData
+}
+
+input ShippingInput {
+  originZip: Int!
+  destinationZip: Int!
+  weigth: Int!
+  width: Int!
+  length: Int!
+  height: Int
+  diameter: Int
+  declaredValue: Int
+}

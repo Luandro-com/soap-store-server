@@ -1,4 +1,5 @@
 const { getUserId } = require('../services/auth/utils')
+const shipping = require('../services/payment/shipping')
 
 const Query = {
   async content(parent, args, ctx, info) {
@@ -45,9 +46,7 @@ const Query = {
   },
 
   products(parent, args, ctx, info) {
-    console.log(args)
     const { id, slug, category, subCategory } = args
-    console.log('-----------------------------', category, subCategory)
     if (category) {
       return ctx.db.query.products({ where: { category: { slug: category } }}, info)
     } else if (subCategory) {
@@ -75,6 +74,10 @@ const Query = {
 
   async admins(parent, args, ctx, info) {
     return await ctx.db.query.users({ where: { role_in: ['ADMIN', 'EDITOR', 'DELIVERY'] } }, info)
+  },
+  
+  async shipping(parent, args, ctx, info) {
+    return await shipping(args.input)
   },
 
   async payments(parent, args, ctx, info) {

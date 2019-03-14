@@ -10,7 +10,7 @@ type Query {
   drafts: [Post!]!
   post(id: ID!): Post
   productCategories: [ProductCategory!]!
-  product(id: ID, slug: String): Product
+  product(id: String, slug: String): Product
   products(category: String, subCategory: String): [Product]
   user: User
   users: [User]
@@ -18,6 +18,7 @@ type Query {
   allOrders: [Order]
   customers: [User]
   admins: [User]
+  shipping(input: ShippingInput): Shipping
   payments: [Payment]
   content: Content
   uploads: [File]

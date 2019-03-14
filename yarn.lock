@@ -824,9 +824,23 @@ aws-lambda@^0.1.2:
     commander "^2.5.0"
     dotenv "^0.4.0"
 
-aws-sdk@^*, aws-sdk@^2.418.0:
+aws-sdk@^*:
   version "2.419.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.419.0.tgz#e0fec4acde5cec0d1591f819284bae7c1130726c"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.3.2"
+    xml2js "0.4.19"
+
+aws-sdk@^2.421.0:
+  version "2.421.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.421.0.tgz#39c8066b103ef01849f7da587cec40cc874f2fbc"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1686,9 +1700,13 @@ dotenv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
-dotenv@^6.1.0, dotenv@^6.2.0:
+dotenv@^6.1.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
+
+dotenv@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-7.0.0.tgz#a2be3cd52736673206e8a85fb5210eea29628e7c"
 
 duplexer3@^0.1.4:
   version "0.1.4"
