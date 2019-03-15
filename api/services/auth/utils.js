@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 
 function getUserId(ctx) {
-  // const Authorization = ctx.req.get('Authorization')
   const Authorization = ctx.request.get('Authorization')
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '')
