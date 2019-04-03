@@ -40,7 +40,7 @@ type Address {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -127,7 +127,7 @@ type OrderShippingAddress {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -141,6 +141,7 @@ type Order {
   id: ID! @unique
   recurrying: Boolean! @default(value: "false")
   status: OrderStatus! @default(value: "WAITING_PAYMENT")
+  code: String @unique
   cart: Cart!
   subTotalPrice: Int!
   totalShippingPrice: Int
@@ -220,7 +221,7 @@ type Stores {
   description: String
   address: String
   city: String
-  zip: String
+  zip: Int
   updatedAt: DateTime!
 }
 

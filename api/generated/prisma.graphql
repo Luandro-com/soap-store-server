@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Mar 12 2019 21:29:40 GMT-0300 (-03)
+# timestamp: Sun Mar 17 2019 08:54:30 GMT-0300 (-03)
 
 type Address implements Node {
   id: ID!
@@ -7,7 +7,7 @@ type Address implements Node {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -32,7 +32,7 @@ input AddressCreateInput {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -52,7 +52,7 @@ input AddressCreateWithoutCustomerInput {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -107,7 +107,7 @@ type AddressPreviousValues {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -295,46 +295,28 @@ input AddressScalarWhereInput {
 
   """All values not ending with the given string."""
   complement_not_ends_with: String
-  zip: String
+  zip: Int
 
   """All values that are not equal to given value."""
-  zip_not: String
+  zip_not: Int
 
   """All values that are contained in given list."""
-  zip_in: [String!]
+  zip_in: [Int!]
 
   """All values that are not contained in given list."""
-  zip_not_in: [String!]
+  zip_not_in: [Int!]
 
   """All values less than the given value."""
-  zip_lt: String
+  zip_lt: Int
 
   """All values less than or equal the given value."""
-  zip_lte: String
+  zip_lte: Int
 
   """All values greater than the given value."""
-  zip_gt: String
+  zip_gt: Int
 
   """All values greater than or equal the given value."""
-  zip_gte: String
-
-  """All values containing the given string."""
-  zip_contains: String
-
-  """All values not containing the given string."""
-  zip_not_contains: String
-
-  """All values starting with the given string."""
-  zip_starts_with: String
-
-  """All values not starting with the given string."""
-  zip_not_starts_with: String
-
-  """All values ending with the given string."""
-  zip_ends_with: String
-
-  """All values not ending with the given string."""
-  zip_not_ends_with: String
+  zip_gte: Int
   district: String
 
   """All values that are not equal to given value."""
@@ -626,7 +608,7 @@ input AddressUpdateInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -641,7 +623,7 @@ input AddressUpdateManyDataInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -655,7 +637,7 @@ input AddressUpdateManyMutationInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -686,7 +668,7 @@ input AddressUpdateWithoutCustomerDataInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -885,46 +867,28 @@ input AddressWhereInput {
 
   """All values not ending with the given string."""
   complement_not_ends_with: String
-  zip: String
+  zip: Int
 
   """All values that are not equal to given value."""
-  zip_not: String
+  zip_not: Int
 
   """All values that are contained in given list."""
-  zip_in: [String!]
+  zip_in: [Int!]
 
   """All values that are not contained in given list."""
-  zip_not_in: [String!]
+  zip_not_in: [Int!]
 
   """All values less than the given value."""
-  zip_lt: String
+  zip_lt: Int
 
   """All values less than or equal the given value."""
-  zip_lte: String
+  zip_lte: Int
 
   """All values greater than the given value."""
-  zip_gt: String
+  zip_gt: Int
 
   """All values greater than or equal the given value."""
-  zip_gte: String
-
-  """All values containing the given string."""
-  zip_contains: String
-
-  """All values not containing the given string."""
-  zip_not_contains: String
-
-  """All values starting with the given string."""
-  zip_starts_with: String
-
-  """All values not starting with the given string."""
-  zip_not_starts_with: String
-
-  """All values ending with the given string."""
-  zip_ends_with: String
-
-  """All values not ending with the given string."""
-  zip_not_ends_with: String
+  zip_gte: Int
   district: String
 
   """All values that are not equal to given value."""
@@ -3653,6 +3617,7 @@ type Order implements Node {
   id: ID!
   recurrying: Boolean!
   status: OrderStatus!
+  code: String
   cart: Cart!
   subTotalPrice: Int!
   totalShippingPrice: Int
@@ -3678,6 +3643,7 @@ type OrderConnection {
 input OrderCreateInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int!
   totalShippingPrice: Int
   totalPrice: Int!
@@ -3706,6 +3672,7 @@ input OrderCreateOneWithoutShippingAddressInput {
 input OrderCreateWithoutCustomerInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int!
   totalShippingPrice: Int
   totalPrice: Int!
@@ -3718,6 +3685,7 @@ input OrderCreateWithoutCustomerInput {
 input OrderCreateWithoutPaymentInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int!
   totalShippingPrice: Int
   totalPrice: Int!
@@ -3730,6 +3698,7 @@ input OrderCreateWithoutPaymentInput {
 input OrderCreateWithoutShippingAddressInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int!
   totalShippingPrice: Int
   totalPrice: Int!
@@ -3755,6 +3724,8 @@ enum OrderOrderByInput {
   recurrying_DESC
   status_ASC
   status_DESC
+  code_ASC
+  code_DESC
   subTotalPrice_ASC
   subTotalPrice_DESC
   totalShippingPrice_ASC
@@ -3773,6 +3744,7 @@ type OrderPreviousValues {
   id: ID!
   recurrying: Boolean!
   status: OrderStatus!
+  code: String
   subTotalPrice: Int!
   totalShippingPrice: Int
   totalPrice: Int!
@@ -3844,6 +3816,46 @@ input OrderScalarWhereInput {
 
   """All values that are not contained in given list."""
   status_not_in: [OrderStatus!]
+  code: String
+
+  """All values that are not equal to given value."""
+  code_not: String
+
+  """All values that are contained in given list."""
+  code_in: [String!]
+
+  """All values that are not contained in given list."""
+  code_not_in: [String!]
+
+  """All values less than the given value."""
+  code_lt: String
+
+  """All values less than or equal the given value."""
+  code_lte: String
+
+  """All values greater than the given value."""
+  code_gt: String
+
+  """All values greater than or equal the given value."""
+  code_gte: String
+
+  """All values containing the given string."""
+  code_contains: String
+
+  """All values not containing the given string."""
+  code_not_contains: String
+
+  """All values starting with the given string."""
+  code_starts_with: String
+
+  """All values not starting with the given string."""
+  code_not_starts_with: String
+
+  """All values ending with the given string."""
+  code_ends_with: String
+
+  """All values not ending with the given string."""
+  code_not_ends_with: String
   subTotalPrice: Int
 
   """All values that are not equal to given value."""
@@ -3983,7 +3995,7 @@ type OrderShippingAddress implements Node {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -4007,7 +4019,7 @@ input OrderShippingAddressCreateInput {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -4026,7 +4038,7 @@ input OrderShippingAddressCreateWithoutOrderInput {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -4078,7 +4090,7 @@ type OrderShippingAddressPreviousValues {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String
@@ -4130,7 +4142,7 @@ input OrderShippingAddressUpdateInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -4144,7 +4156,7 @@ input OrderShippingAddressUpdateManyMutationInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -4164,7 +4176,7 @@ input OrderShippingAddressUpdateWithoutOrderDataInput {
   street: String
   number: String
   complement: String
-  zip: String
+  zip: Int
   district: String
   city: String
   state: String
@@ -4347,46 +4359,28 @@ input OrderShippingAddressWhereInput {
 
   """All values not ending with the given string."""
   complement_not_ends_with: String
-  zip: String
+  zip: Int
 
   """All values that are not equal to given value."""
-  zip_not: String
+  zip_not: Int
 
   """All values that are contained in given list."""
-  zip_in: [String!]
+  zip_in: [Int!]
 
   """All values that are not contained in given list."""
-  zip_not_in: [String!]
+  zip_not_in: [Int!]
 
   """All values less than the given value."""
-  zip_lt: String
+  zip_lt: Int
 
   """All values less than or equal the given value."""
-  zip_lte: String
+  zip_lte: Int
 
   """All values greater than the given value."""
-  zip_gt: String
+  zip_gt: Int
 
   """All values greater than or equal the given value."""
-  zip_gte: String
-
-  """All values containing the given string."""
-  zip_contains: String
-
-  """All values not containing the given string."""
-  zip_not_contains: String
-
-  """All values starting with the given string."""
-  zip_starts_with: String
-
-  """All values not starting with the given string."""
-  zip_not_starts_with: String
-
-  """All values ending with the given string."""
-  zip_ends_with: String
-
-  """All values not ending with the given string."""
-  zip_not_ends_with: String
+  zip_gte: Int
   district: String
 
   """All values that are not equal to given value."""
@@ -4685,6 +4679,7 @@ input OrderSubscriptionWhereInput {
 input OrderUpdateInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int
   totalShippingPrice: Int
   totalPrice: Int
@@ -4698,6 +4693,7 @@ input OrderUpdateInput {
 input OrderUpdateManyDataInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int
   totalShippingPrice: Int
   totalPrice: Int
@@ -4707,6 +4703,7 @@ input OrderUpdateManyDataInput {
 input OrderUpdateManyMutationInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int
   totalShippingPrice: Int
   totalPrice: Int
@@ -4747,6 +4744,7 @@ input OrderUpdateOneRequiredWithoutShippingAddressInput {
 input OrderUpdateWithoutCustomerDataInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int
   totalShippingPrice: Int
   totalPrice: Int
@@ -4759,6 +4757,7 @@ input OrderUpdateWithoutCustomerDataInput {
 input OrderUpdateWithoutPaymentDataInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int
   totalShippingPrice: Int
   totalPrice: Int
@@ -4771,6 +4770,7 @@ input OrderUpdateWithoutPaymentDataInput {
 input OrderUpdateWithoutShippingAddressDataInput {
   recurrying: Boolean
   status: OrderStatus
+  code: String
   subTotalPrice: Int
   totalShippingPrice: Int
   totalPrice: Int
@@ -4864,6 +4864,46 @@ input OrderWhereInput {
 
   """All values that are not contained in given list."""
   status_not_in: [OrderStatus!]
+  code: String
+
+  """All values that are not equal to given value."""
+  code_not: String
+
+  """All values that are contained in given list."""
+  code_in: [String!]
+
+  """All values that are not contained in given list."""
+  code_not_in: [String!]
+
+  """All values less than the given value."""
+  code_lt: String
+
+  """All values less than or equal the given value."""
+  code_lte: String
+
+  """All values greater than the given value."""
+  code_gt: String
+
+  """All values greater than or equal the given value."""
+  code_gte: String
+
+  """All values containing the given string."""
+  code_contains: String
+
+  """All values not containing the given string."""
+  code_not_contains: String
+
+  """All values starting with the given string."""
+  code_starts_with: String
+
+  """All values not starting with the given string."""
+  code_not_starts_with: String
+
+  """All values ending with the given string."""
+  code_ends_with: String
+
+  """All values not ending with the given string."""
+  code_not_ends_with: String
   subTotalPrice: Int
 
   """All values that are not equal to given value."""
@@ -5004,6 +5044,7 @@ input OrderWhereInput {
 
 input OrderWhereUniqueInput {
   id: ID
+  code: String
 }
 
 """Information about pagination in a connection."""
@@ -11498,7 +11539,7 @@ type Stores {
   description: String
   address: String
   city: String
-  zip: String
+  zip: Int
   updatedAt: DateTime!
 }
 
@@ -11520,7 +11561,7 @@ input StoresCreateInput {
   description: String
   address: String
   city: String
-  zip: String
+  zip: Int
 }
 
 """An edge in a connection."""
@@ -11565,7 +11606,7 @@ type StoresPreviousValues {
   description: String
   address: String
   city: String
-  zip: String
+  zip: Int
   updatedAt: DateTime!
 }
 
@@ -11616,7 +11657,7 @@ input StoresUpdateManyMutationInput {
   description: String
   address: String
   city: String
-  zip: String
+  zip: Int
 }
 
 input StoresWhereInput {
@@ -11872,46 +11913,28 @@ input StoresWhereInput {
 
   """All values not ending with the given string."""
   city_not_ends_with: String
-  zip: String
+  zip: Int
 
   """All values that are not equal to given value."""
-  zip_not: String
+  zip_not: Int
 
   """All values that are contained in given list."""
-  zip_in: [String!]
+  zip_in: [Int!]
 
   """All values that are not contained in given list."""
-  zip_not_in: [String!]
+  zip_not_in: [Int!]
 
   """All values less than the given value."""
-  zip_lt: String
+  zip_lt: Int
 
   """All values less than or equal the given value."""
-  zip_lte: String
+  zip_lte: Int
 
   """All values greater than the given value."""
-  zip_gt: String
+  zip_gt: Int
 
   """All values greater than or equal the given value."""
-  zip_gte: String
-
-  """All values containing the given string."""
-  zip_contains: String
-
-  """All values not containing the given string."""
-  zip_not_contains: String
-
-  """All values starting with the given string."""
-  zip_starts_with: String
-
-  """All values not starting with the given string."""
-  zip_not_starts_with: String
-
-  """All values ending with the given string."""
-  zip_ends_with: String
-
-  """All values not ending with the given string."""
-  zip_not_ends_with: String
+  zip_gte: Int
   updatedAt: DateTime
 
   """All values that are not equal to given value."""

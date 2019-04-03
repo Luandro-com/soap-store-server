@@ -1,5 +1,6 @@
 const { getUserId } = require('../services/auth/utils')
 const shipping = require('../services/payment/shipping')
+const fetch = require('node-fetch')
 
 const Query = {
   async content(parent, args, ctx, info) {
@@ -78,6 +79,26 @@ const Query = {
   
   async shipping(parent, args, ctx, info) {
     return await shipping(args.input)
+  },
+
+  async zip(parent, args, ctx, info) {
+    const url = `https://viacep.com.br/ws/${args.code}/json/`
+    try {
+      const res = await fetch(url)
+      const json = await res.json()
+      return {
+        zip: json.cep,
+        street: json.logradouro,
+        complement: json.complemento,
+        district: json.bairro,
+        city: json.localidade,
+        state: json.uf,
+        ibge: json.ibge,
+        gia: json.gia,
+      }
+    } catch (err) {
+      throw err
+    }
   },
 
   async payments(parent, args, ctx, info) {

@@ -30,7 +30,7 @@ input AddressInput {
   street: String!
   number: String!
   complement: String
-  zip: String!
+  zip: Int!
   district: String
   city: String
   state: String

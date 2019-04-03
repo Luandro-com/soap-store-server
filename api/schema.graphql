@@ -19,6 +19,7 @@ type Query {
   customers: [User]
   admins: [User]
   shipping(input: ShippingInput): Shipping
+  zip(code: Int!): Zip
   payments: [Payment]
   content: Content
   uploads: [File]
@@ -33,6 +34,8 @@ type Mutation {
   deletePost(id: ID!): Post!
   updateUser(input: UserInput): User!
   updateUserRole(userId: ID!, role: Role!): User!
+  updateCartItem(input: CartInput!): Cart
+  removeCartItem(productId: String!): Cart
   addToCart(input: CartInput): Cart
   removeFromCart(input: CartInput): Cart
   saveAddress(input: AddressInput): Address

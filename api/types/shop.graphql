@@ -1,15 +1,20 @@
 input PaymentInput {
   method: PaymentType!
-  cupom: String
-  info: String
   orderId: String!
+  document: String!
+  paymentHash: String!
+  cardToken: String
+  holderName: String
+  holderDocument: String
+  holderBirth: String
+  holderPhone: String
+  billingAddressId: String
 }
 
 enum PaymentType {
-  CREDIT
-  DEBIT
-  MONEY_ORDER
-  RECURRYING
+  CREDITCARD
+  EFT
+  BOLETO
 }
 
 input CartInput {
@@ -43,6 +48,17 @@ type ShippingData {
   valueHandling: Int
   valueReceive: Int
   valueDeclaredValue: Int
+}
+
+type Zip {
+  zip: String
+  street: String
+  complement: String
+  district: String
+  city: String
+  state: String
+  ibge: String
+  gia: String
 }
 
 type Shipping {
