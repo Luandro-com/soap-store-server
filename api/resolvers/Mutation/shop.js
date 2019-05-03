@@ -11,6 +11,13 @@ const getSameItem = (products, productId, variantsIds) => products.filter(p => {
   return p.product.id === productId
 })[0]
 
+const formatPrice = price => {
+  let chars = price.toString().split('')
+  chars.splice(-2, 0, '.')
+  return chars.join('')
+}
+
+
 const shop = {
   async saveAddress(parent, args, ctx, info) {
     const { input } = args
@@ -41,8 +48,12 @@ const shop = {
     const orderId = input.orderId
     const cartId = input.cartId
     const shippingAddressId = input.shippingAddressId
+    const shippingValue = input.shippingValue
+    const shippingOption = input.shippingOption
     if (input.orderId) delete input.orderId
     if (input.cartId) delete input.cartId
+    if (input.shippingValue) delete input.shippingValue
+    if (input.shippingOption) delete input.shippingOption
     if (input.shippingAddressId) delete input.shippingAddressId
     const address = await ctx.db.query.address({ where: { id: shippingAddressId } }, `{
       street
@@ -57,16 +68,10 @@ const shop = {
       lastName
     }`)
     const { products } = await ctx.db.query.cart({ where: { id: cartId } }, `{ products { product { price } } }`)
-    const { product: { price } } = products.reduce((prev, curr) => {
-      console.log('prev', prev)
-      console.log('curr', curr)
-      return prev.product.price + curr.procut.price
-    })
-    console.log('PRICE', price)
-    // const { code } = await simpleTransaction()
-    // console.log('code', code)
+    const price = products.reduce((prev, curr) => {
+      return prev + curr.product.price
+    }, 0)
     const code = await initSession()
-    console.log('CODE', code)
     const order = await ctx.db.mutation.upsertOrder({
       where: { code },
       update: { ...input },
@@ -78,6 +83,8 @@ const shop = {
         customer: { connect: { id } },
         cart: { connect: { id: cartId } },
         shippingAddress: { create: { ...address } },
+        shippingValue,
+        shippingOption,
       },
     }, info)
     return order
@@ -273,283 +280,156 @@ const shop = {
     }
   },
   async payment(parent, args, ctx, info) {
+    console.log('-------------------- PAYMENT ----------------------')
     const { 
       method,
       orderId,
       document,
       paymentHash,
       cardToken,
+      installmentValue,
+      installmentNoInterest,
+      installmentQuantity,
       holderName,
       holderDocument,
       holderBirth,
       holderPhone,
       billingAddressId } = args.input
+      const order = await ctx.db.query.order({ where: { id: orderId } }, `{
+        totalPrice
+        shippingValue
+        shippingOption
+        cart {
+          id
+          products {
+            id
+            quantity
+            product {
+              price
+              name
+              description
+            }
+          }
+        }
+        shippingAddress {
+          street
+          number
+          complement
+          zip
+          district
+          city
+          state
+          country
+        }
+        customer {
+          id
+          firstName
+          lastName
+          email
+        }
+      }`)
+      const { cart, shippingValue, shippingOption, customer } = order
+      let items = {
+        item: []
+      }
+      cart.products.map(p => items.item.push({
+        id: p.id,
+        description: p.product.description,
+        quantity: p.quantity.toString(),
+        amount: formatPrice(p.product.price),
+      }))
       let transactionData = {}
       if (method === "CREDITCARD") {
         transactionData = {
-          "mode":"default",
-          "method":"creditCard",
-          "sender":{
-          "name":"Fulano Silva",
-          "email":"fulano.silva@uol.com.br",
-          "phone":{
-          "areaCode":"11",
-          "number":"30380000"
+          mode: 'default',
+          method: 'creditCard',
+          sender: {
+            name: `${customer.firstName} ${customer.lastName}`,
+            email: process.env.PRODUCTION ? customer.email : `${customer.email.split('@')[0]}@sandbox.pagseguro.com.br`,
+            phone: {
+              areaCode: '11',
+              number: '30380000',
+            },
+            documents: {
+              document: {
+                type: 'CPF',
+                value: '22111944785',
+              },
+            },
+            hash: paymentHash,
           },
-          "documents":{
-          "document":{
-          "type":"CPF",
-          "value":"22111944785"
-          }
+          currency: 'BRL',
+          notificationURL: 'https://sualoja.com.br/notificacao',
+          items,
+          extraAmount: '0.00',
+          reference: orderId,
+          shippingAddressRequired: 'true',
+          shipping: {
+            address: Object.assign(order.shippingAddress, { postalCode: order.shippingAddress.zip }),
+            type: shippingOption === 'pac' ? '1' : (shippingOption === 'sedex') ? '2' : '3',
+            cost: formatPrice(shippingValue),
           },
-          "hash":"{hash_obtido_no_passo_2.3}"
+          creditCard: {
+            token: cardToken,
+            installment: {
+              quantity: installmentQuantity,
+              value: installmentValue,
+              noInterestInstallmentQuantity: installmentNoInterest,
+            },
+            holder: {
+              name: holderName,
+              documents: {
+                document: {
+                  type: 'CPF',
+                  value: '22111944785',
+                },
+              },
+              birthDate: '20/10/1980',
+              phone: {
+                areaCode: '11',
+                number: '999991111',
+              },
+            },
+            billingAddress: {
+              street: 'Av. Brigadeiro Faria Lima',
+              number: '1384',
+              complement: '1 andar',
+              district: 'Jardim Paulistano',
+              city: 'Sao Paulo',
+              state: 'SP',
+              country: 'BRA',
+              postalCode: '01452002',
+            },
           },
-          "currency":"BRL",
-          "notificationURL":"https://sualoja.com.br/notificacao",
-          "items":{
-          "item":{
-          "id":"1",
-          "description":"Descricao do item a ser vendido",
-          "quantity":"1",
-          "amount":"10.00"
-          }
-          },
-          "extraAmount":"0.00",
-          "reference":"R123456",
-          "shippingAddressRequired":"true",
-          "shipping":{
-          "address":{
-          "street":"Av. Brigadeiro Faria Lima",
-          "number":"1384",
-          "complement":"1 andar",
-          "district":"Jardim Paulistano",
-          "city":"Sao Paulo",
-          "state":"SP",
-          "country":"BRA",
-          "postalCode":"01452002"
-          },
-          "type":"3",
-          "cost":"0.00"
-          },
-          "creditCard":{
-          "token":"{creditCard_token_obtido_no_passo_2.6}",
-          "installment":{
-          "quantity":"{quantidade_de_parcelas_escolhida}",
-          "value":"{installmentAmount_obtido_no_retorno_do_passo_2.5}",
-          "noInterestInstallmentQuantity":"{valor_maxInstallmentNoInterest_incluido_no_passo_2.5} "
-          },
-          "holder":{
-          "name":"Nome impresso no cartao",
-          "documents":{
-          "document":{
-          "type":"CPF",
-          "value":"22111944785"
-          }
-          },
-          "birthDate":"20/10/1980",
-          "phone":{
-          "areaCode":"11",
-          "number":"999991111"
-          }
-          },
-          "billingAddress":{
-          "street":"Av. Brigadeiro Faria Lima",
-          "number":"1384",
-          "complement":"1 andar",
-          "district":"Jardim Paulistano",
-          "city":"Sao Paulo",
-          "state":"SP",
-          "country":"BRA",
-          "postalCode":"01452002"
-          }
         }
-          // mode: 'default',
-          // method: 'creditCard',
-          // sender: {
-          //   name:,
-          //   email:,
-          //   phone: {
-          //     areaCode:,
-          //     number:,
-          //   },
-          //   documents: {
-          //     type: 'CPF',
-          //     value:,
-          //   },
-          //   hash: paymentHash,
-          // },
-          // currency: 'BRL',
-          // notificationURL: process.env.PRODUCTION ? `https://api.flordocerradosaboaria.com/payment_notification`,
-          // items: {
-          //   id:,
-          //   description:,
-          //   quantity:,
-          //   amount:,
-          // },
-          // extraAmount:,
-          // reference:,
-          // shippingAddressRequired: true,
-        }
-        console.log(transactionData)
       } else if (method === "BOLETO") {
 
       } else if (method === "EFT") {
 
       }
+      console.log('transactionData', transactionData)
       const res = await transaction(transactionData)
-      console.log('RES', res)
-      return res
+      console.dir(res)
+      const { code, status, type, grossAmount, feeAmount, netAmount } = res.transaction
+      return await ctx.db.mutation.createPayment({
+        data: {
+          paymentId: code,
+          type,
+          status: parseInt(status),
+          customer: {
+            connect: { id: order.customer.id },
+          },
+          merchantOrderId: code,
+          order: {
+            connect: { id: orderId },
+          },
+          amount: parseInt(grossAmount),
+          feeAmount: parseInt(feeAmount),
+          netAmount: parseInt(netAmount),
+          installments: installmentQuantity,
+        }
+      }, info)
   },
-  // async payment(parent, args, ctx, info) {
-  //   try {
-  //     const { input } = args
-  //     const id = getUserId(ctx)
-  //     const orderId = input.orderId
-  //     delete input.orderId
-  //     const payment = await simpleTransaction()
-  //     console.log('PAYMENT', payment)
-  //     {
-  //       "payment": {
-  //         "mode": "default",
-  //         "method": "creditCard",
-  //         "sender": {
-  //           "name": "Fulano Silva",
-  //           "email": "fulano.silva@uol.com.br",
-  //           "phone": {
-  //             "areaCode": "11",
-  //             "number": "30380000"
-  //           },
-  //           "documents": {
-  //             "document": {
-  //               "type": "CPF",
-  //               "value": "22111944785"
-  //             }
-  //           },
-  //           "hash": "{hash_obtido_no_passo_2.3}"
-  //         },
-  //         "currency": "BRL",
-  //         "notificationURL": "https://sualoja.com.br/notificacao",
-  //         "items": {
-  //           "item": {
-  //             "id": "1",
-  //             "description": "Descricao do item a ser vendido",
-  //             "quantity": "1",
-  //             "amount": "10.00"
-  //           }
-  //         },
-  //         "extraAmount": "0.00",
-  //         "reference": "R123456",
-  //         "shippingAddressRequired": "true",
-  //         "shipping": {
-  //           "address": {
-  //             "street": "Av. Brigadeiro Faria Lima",
-  //             "number": "1384",
-  //             "complement": "1 andar",
-  //             "district": "Jardim Paulistano",
-  //             "city": "Sao Paulo",
-  //             "state": "SP",
-  //             "country": "BRA",
-  //             "postalCode": "01452002"
-  //           },
-  //           "type": "3",
-  //           "cost": "0.00"
-  //         },
-  //         "creditCard": {
-  //           "token": "{creditCard_token_obtido_no_passo_2.6}",
-  //           "installment": {
-  //             "quantity": "{quantidade_de_parcelas_escolhida}",
-  //             "value": "{installmentAmount_obtido_no_retorno_do_passo_2.5}",
-  //             "noInterestInstallmentQuantity": "{valor_maxInstallmentNoInterest_incluido_no_passo_2.5}
-  //                  "
-  //           },
-  //           "holder": {
-  //             "name": "Nome impresso no cartao",
-  //             "documents": {
-  //               "document": {
-  //                 "type": "CPF",
-  //                 "value": "22111944785"
-  //               }
-  //             },
-  //             "birthDate": "20/10/1980",
-  //             "phone": {
-  //               "areaCode": "11",
-  //               "number": "999991111"
-  //             }
-  //           },
-  //           "billingAddress": {
-  //             "street": "Av. Brigadeiro Faria Lima",
-  //             "number": "1384",
-  //             "complement": "1 andar",
-  //             "district": "Jardim Paulistano",
-  //             "city": "Sao Paulo",
-  //             "state": "SP",
-  //             "country": "BRA",
-  //             "postalCode": "01452002"
-  //           }
-  //         }
-  //       }
-  //     }
-  //     const {
-  //       paymentId,
-  //       type,
-  //       currency,
-  //       creditCard,
-  //       tid,
-  //       proofOfSale,
-  //       authorizationCode,
-  //       softDescriptor,
-  //       provider,
-  //       amount,
-  //       serviceTaxAmount,
-  //       installments,
-  //       interest,
-  //       capture,
-  //       authenticate,
-  //       recurrent,
-  //       receivedDate,
-  //       status,
-  //       isSplitted,
-  //       returnMessage,
-  //       returnCode
-  //     } = formatedPayment
-  //     const xml = js2xmlparser.parse("payment", obj)
-  //     const card = await ctx.db.mutation.createCreditCard({
-  //       data: creditCard
-  //     })
-  //     console.log('CREATED CARD ====> ', card)
-  //     return await ctx.db.mutation.createPayment({
-  //       data: {
-  //         merchantOrderId: payment['MerchantOrderId'],
-  //         customerName: payment['Customer']['Name'],
-  //         order: { connect: { id: orderId } },
-  //         customer: { connect: { id } },
-  //         creditCard: { connect: { id: card.id }},
-  //         paymentId,
-  //         type,
-  //         currency,
-  //         tid,
-  //         proofOfSale,
-  //         authorizationCode,
-  //         softDescriptor,
-  //         provider,
-  //         amount,
-  //         serviceTaxAmount,
-  //         installments,
-  //         interest,
-  //         capture,
-  //         authenticate,
-  //         recurrent,
-  //         receivedDate: new Date(receivedDate),
-  //         status,
-  //         isSplitted,
-  //         returnMessage,
-  //         returnCode,
-  //       }
-  //     })
-  //   } catch (err) {
-  //     console.log('ERR on transaction', err)
-  //   }
-  // },
 }
 
 module.exports = { shop }

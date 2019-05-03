@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Mar 17 2019 08:54:30 GMT-0300 (-03)
+# timestamp: Fri May 03 2019 09:02:55 GMT-0300 (-03)
 
 type Address implements Node {
   id: ID!
@@ -28,6 +28,7 @@ type AddressConnection {
 }
 
 input AddressCreateInput {
+  id: ID
   type: AddressType
   street: String!
   number: String!
@@ -48,6 +49,7 @@ input AddressCreateManyWithoutCustomerInput {
 }
 
 input AddressCreateWithoutCustomerInput {
+  id: ID
   type: AddressType
   street: String!
   number: String!
@@ -95,10 +97,6 @@ enum AddressOrderByInput {
   firstName_DESC
   lastName_ASC
   lastName_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type AddressPreviousValues {
@@ -1235,6 +1233,7 @@ type CartConnection {
 }
 
 input CartCreateInput {
+  id: ID
   products: CartItemCreateManyWithoutCartInput
   customer: UserCreateOneWithoutCartInput!
 }
@@ -1255,10 +1254,12 @@ input CartCreateOneWithoutProductsInput {
 }
 
 input CartCreateWithoutCustomerInput {
+  id: ID
   products: CartItemCreateManyWithoutCartInput
 }
 
 input CartCreateWithoutProductsInput {
+  id: ID
   customer: UserCreateOneWithoutCartInput!
 }
 
@@ -1290,6 +1291,7 @@ type CartItemConnection {
 }
 
 input CartItemCreateInput {
+  id: ID
   quantity: Int
   cart: CartCreateOneWithoutProductsInput!
   product: ProductCreateOneInput
@@ -1302,6 +1304,7 @@ input CartItemCreateManyWithoutCartInput {
 }
 
 input CartItemCreateWithoutCartInput {
+  id: ID
   quantity: Int
   product: ProductCreateOneInput
   variants: ProductVariantCreateManyInput
@@ -1321,10 +1324,6 @@ enum CartItemOrderByInput {
   id_DESC
   quantity_ASC
   quantity_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type CartItemPreviousValues {
@@ -1580,8 +1579,6 @@ enum CartOrderByInput {
   id_DESC
   updatedAt_ASC
   updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type CartPreviousValues {
@@ -1765,7 +1762,8 @@ input CartWhereUniqueInput {
   id: ID
 }
 
-type Content {
+type Content implements Node {
+  id: ID!
   title: String
   logo: String
   metaDescription: String
@@ -1796,6 +1794,7 @@ input ContentCreatebannerImagesInput {
 }
 
 input ContentCreateInput {
+  id: ID
   title: String
   logo: String
   metaDescription: String
@@ -1827,6 +1826,8 @@ type ContentEdge {
 }
 
 enum ContentOrderByInput {
+  id_ASC
+  id_DESC
   title_ASC
   title_DESC
   logo_ASC
@@ -1847,11 +1848,10 @@ enum ContentOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
-  id_ASC
-  id_DESC
 }
 
 type ContentPreviousValues {
+  id: ID!
   title: String
   logo: String
   metaDescription: String
@@ -1910,6 +1910,20 @@ input ContentUpdatebannerImagesInput {
   set: [String!]
 }
 
+input ContentUpdateInput {
+  title: String
+  logo: String
+  metaDescription: String
+  metaFavicon: String
+  infoImage: String
+  description: String
+  contact: String
+  footer: String
+  metaKeyWords: ContentUpdatemetaKeyWordsInput
+  sections: ContentUpdatesectionsInput
+  bannerImages: ContentUpdatebannerImagesInput
+}
+
 input ContentUpdateManyMutationInput {
   title: String
   logo: String
@@ -1941,6 +1955,46 @@ input ContentWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [ContentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   title: String
 
   """All values that are not equal to given value."""
@@ -2307,6 +2361,10 @@ input ContentWhereInput {
   createdAt_gte: DateTime
 }
 
+input ContentWhereUniqueInput {
+  id: ID
+}
+
 type CreditCard implements Node {
   id: ID!
   cardNumber: String!
@@ -2327,6 +2385,7 @@ type CreditCardConnection {
 }
 
 input CreditCardCreateInput {
+  id: ID
   cardNumber: String!
   holder: String!
   expirationDate: String!
@@ -2361,10 +2420,6 @@ enum CreditCardOrderByInput {
   saveCard_DESC
   brand_ASC
   brand_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type CreditCardPreviousValues {
@@ -2690,6 +2745,7 @@ type CupomConnection {
 }
 
 input CupomCreateInput {
+  id: ID
   discount: Int!
   code: String!
 }
@@ -2717,8 +2773,6 @@ enum CupomOrderByInput {
   code_DESC
   updatedAt_ASC
   updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type CupomPreviousValues {
@@ -2958,6 +3012,7 @@ type FileConnection {
 }
 
 input FileCreateInput {
+  id: ID
   filename: String!
   mimetype: String!
   encoding: String!
@@ -3337,10 +3392,10 @@ type Mutation {
   createFile(data: FileCreateInput!): File!
   createContent(data: ContentCreateInput!): Content!
   createCreditCard(data: CreditCardCreateInput!): CreditCard!
-  createProductSubCategory(data: ProductSubCategoryCreateInput!): ProductSubCategory!
-  createProductVariant(data: ProductVariantCreateInput!): ProductVariant!
-  createProduct(data: ProductCreateInput!): Product!
   createCupom(data: CupomCreateInput!): Cupom!
+  createProduct(data: ProductCreateInput!): Product!
+  createProductVariant(data: ProductVariantCreateInput!): ProductVariant!
+  createProductSubCategory(data: ProductSubCategoryCreateInput!): ProductSubCategory!
   createCart(data: CartCreateInput!): Cart!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
@@ -3351,13 +3406,15 @@ type Mutation {
   updateOrderShippingAddress(data: OrderShippingAddressUpdateInput!, where: OrderShippingAddressWhereUniqueInput!): OrderShippingAddress
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order
   updatePayment(data: PaymentUpdateInput!, where: PaymentWhereUniqueInput!): Payment
+  updateStores(data: StoresUpdateInput!, where: StoresWhereUniqueInput!): Stores
   updateResetPasswordRequest(data: ResetPasswordRequestUpdateInput!, where: ResetPasswordRequestWhereUniqueInput!): ResetPasswordRequest
   updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
+  updateContent(data: ContentUpdateInput!, where: ContentWhereUniqueInput!): Content
   updateCreditCard(data: CreditCardUpdateInput!, where: CreditCardWhereUniqueInput!): CreditCard
-  updateProductSubCategory(data: ProductSubCategoryUpdateInput!, where: ProductSubCategoryWhereUniqueInput!): ProductSubCategory
-  updateProductVariant(data: ProductVariantUpdateInput!, where: ProductVariantWhereUniqueInput!): ProductVariant
-  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateCupom(data: CupomUpdateInput!, where: CupomWhereUniqueInput!): Cupom
+  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  updateProductVariant(data: ProductVariantUpdateInput!, where: ProductVariantWhereUniqueInput!): ProductVariant
+  updateProductSubCategory(data: ProductSubCategoryUpdateInput!, where: ProductSubCategoryWhereUniqueInput!): ProductSubCategory
   updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
@@ -3368,13 +3425,15 @@ type Mutation {
   deleteOrderShippingAddress(where: OrderShippingAddressWhereUniqueInput!): OrderShippingAddress
   deleteOrder(where: OrderWhereUniqueInput!): Order
   deletePayment(where: PaymentWhereUniqueInput!): Payment
+  deleteStores(where: StoresWhereUniqueInput!): Stores
   deleteResetPasswordRequest(where: ResetPasswordRequestWhereUniqueInput!): ResetPasswordRequest
   deleteFile(where: FileWhereUniqueInput!): File
+  deleteContent(where: ContentWhereUniqueInput!): Content
   deleteCreditCard(where: CreditCardWhereUniqueInput!): CreditCard
-  deleteProductSubCategory(where: ProductSubCategoryWhereUniqueInput!): ProductSubCategory
-  deleteProductVariant(where: ProductVariantWhereUniqueInput!): ProductVariant
-  deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteCupom(where: CupomWhereUniqueInput!): Cupom
+  deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteProductVariant(where: ProductVariantWhereUniqueInput!): ProductVariant
+  deleteProductSubCategory(where: ProductSubCategoryWhereUniqueInput!): ProductSubCategory
   deleteCart(where: CartWhereUniqueInput!): Cart
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
@@ -3385,13 +3444,15 @@ type Mutation {
   upsertOrderShippingAddress(where: OrderShippingAddressWhereUniqueInput!, create: OrderShippingAddressCreateInput!, update: OrderShippingAddressUpdateInput!): OrderShippingAddress!
   upsertOrder(where: OrderWhereUniqueInput!, create: OrderCreateInput!, update: OrderUpdateInput!): Order!
   upsertPayment(where: PaymentWhereUniqueInput!, create: PaymentCreateInput!, update: PaymentUpdateInput!): Payment!
+  upsertStores(where: StoresWhereUniqueInput!, create: StoresCreateInput!, update: StoresUpdateInput!): Stores!
   upsertResetPasswordRequest(where: ResetPasswordRequestWhereUniqueInput!, create: ResetPasswordRequestCreateInput!, update: ResetPasswordRequestUpdateInput!): ResetPasswordRequest!
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
+  upsertContent(where: ContentWhereUniqueInput!, create: ContentCreateInput!, update: ContentUpdateInput!): Content!
   upsertCreditCard(where: CreditCardWhereUniqueInput!, create: CreditCardCreateInput!, update: CreditCardUpdateInput!): CreditCard!
-  upsertProductSubCategory(where: ProductSubCategoryWhereUniqueInput!, create: ProductSubCategoryCreateInput!, update: ProductSubCategoryUpdateInput!): ProductSubCategory!
-  upsertProductVariant(where: ProductVariantWhereUniqueInput!, create: ProductVariantCreateInput!, update: ProductVariantUpdateInput!): ProductVariant!
-  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   upsertCupom(where: CupomWhereUniqueInput!, create: CupomCreateInput!, update: CupomUpdateInput!): Cupom!
+  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+  upsertProductVariant(where: ProductVariantWhereUniqueInput!, create: ProductVariantCreateInput!, update: ProductVariantUpdateInput!): ProductVariant!
+  upsertProductSubCategory(where: ProductSubCategoryWhereUniqueInput!, create: ProductSubCategoryCreateInput!, update: ProductSubCategoryUpdateInput!): ProductSubCategory!
   upsertCart(where: CartWhereUniqueInput!, create: CartCreateInput!, update: CartUpdateInput!): Cart!
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -3407,10 +3468,10 @@ type Mutation {
   updateManyFiles(data: FileUpdateManyMutationInput!, where: FileWhereInput): BatchPayload!
   updateManyContents(data: ContentUpdateManyMutationInput!, where: ContentWhereInput): BatchPayload!
   updateManyCreditCards(data: CreditCardUpdateManyMutationInput!, where: CreditCardWhereInput): BatchPayload!
-  updateManyProductSubCategories(data: ProductSubCategoryUpdateManyMutationInput!, where: ProductSubCategoryWhereInput): BatchPayload!
-  updateManyProductVariants(data: ProductVariantUpdateManyMutationInput!, where: ProductVariantWhereInput): BatchPayload!
-  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
   updateManyCupoms(data: CupomUpdateManyMutationInput!, where: CupomWhereInput): BatchPayload!
+  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+  updateManyProductVariants(data: ProductVariantUpdateManyMutationInput!, where: ProductVariantWhereInput): BatchPayload!
+  updateManyProductSubCategories(data: ProductSubCategoryUpdateManyMutationInput!, where: ProductSubCategoryWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyNewsletterSubscriptions(where: NewsletterSubscriptionWhereInput): BatchPayload!
@@ -3425,10 +3486,10 @@ type Mutation {
   deleteManyFiles(where: FileWhereInput): BatchPayload!
   deleteManyContents(where: ContentWhereInput): BatchPayload!
   deleteManyCreditCards(where: CreditCardWhereInput): BatchPayload!
-  deleteManyProductSubCategories(where: ProductSubCategoryWhereInput): BatchPayload!
-  deleteManyProductVariants(where: ProductVariantWhereInput): BatchPayload!
-  deleteManyProducts(where: ProductWhereInput): BatchPayload!
   deleteManyCupoms(where: CupomWhereInput): BatchPayload!
+  deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  deleteManyProductVariants(where: ProductVariantWhereInput): BatchPayload!
+  deleteManyProductSubCategories(where: ProductSubCategoryWhereInput): BatchPayload!
   deleteManyCarts(where: CartWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
@@ -3439,7 +3500,8 @@ enum MutationType {
   DELETED
 }
 
-type NewsletterSubscription {
+type NewsletterSubscription implements Node {
+  id: ID!
   email: String!
   createdAt: DateTime!
 }
@@ -3455,6 +3517,7 @@ type NewsletterSubscriptionConnection {
 }
 
 input NewsletterSubscriptionCreateInput {
+  id: ID
   email: String!
 }
 
@@ -3468,17 +3531,16 @@ type NewsletterSubscriptionEdge {
 }
 
 enum NewsletterSubscriptionOrderByInput {
+  id_ASC
+  id_DESC
   email_ASC
   email_DESC
   createdAt_ASC
   createdAt_DESC
-  id_ASC
-  id_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type NewsletterSubscriptionPreviousValues {
+  id: ID!
   email: String!
   createdAt: DateTime!
 }
@@ -3539,6 +3601,46 @@ input NewsletterSubscriptionWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [NewsletterSubscriptionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   email: String
 
   """All values that are not equal to given value."""
@@ -3604,6 +3706,7 @@ input NewsletterSubscriptionWhereInput {
 }
 
 input NewsletterSubscriptionWhereUniqueInput {
+  id: ID
   email: String
 }
 
@@ -3627,6 +3730,8 @@ type Order implements Node {
   updatedAt: DateTime!
   createdAt: DateTime!
   shippingAddress: OrderShippingAddress!
+  shippingValue: Int
+  shippingOption: String
   payment: Payment
 }
 
@@ -3641,6 +3746,7 @@ type OrderConnection {
 }
 
 input OrderCreateInput {
+  id: ID
   recurrying: Boolean
   status: OrderStatus
   code: String
@@ -3648,6 +3754,8 @@ input OrderCreateInput {
   totalShippingPrice: Int
   totalPrice: Int!
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartCreateOneInput!
   customer: UserCreateOneWithoutOrdersInput!
   shippingAddress: OrderShippingAddressCreateOneWithoutOrderInput!
@@ -3670,6 +3778,7 @@ input OrderCreateOneWithoutShippingAddressInput {
 }
 
 input OrderCreateWithoutCustomerInput {
+  id: ID
   recurrying: Boolean
   status: OrderStatus
   code: String
@@ -3677,12 +3786,15 @@ input OrderCreateWithoutCustomerInput {
   totalShippingPrice: Int
   totalPrice: Int!
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartCreateOneInput!
   shippingAddress: OrderShippingAddressCreateOneWithoutOrderInput!
   payment: PaymentCreateOneWithoutOrderInput
 }
 
 input OrderCreateWithoutPaymentInput {
+  id: ID
   recurrying: Boolean
   status: OrderStatus
   code: String
@@ -3690,12 +3802,15 @@ input OrderCreateWithoutPaymentInput {
   totalShippingPrice: Int
   totalPrice: Int!
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartCreateOneInput!
   customer: UserCreateOneWithoutOrdersInput!
   shippingAddress: OrderShippingAddressCreateOneWithoutOrderInput!
 }
 
 input OrderCreateWithoutShippingAddressInput {
+  id: ID
   recurrying: Boolean
   status: OrderStatus
   code: String
@@ -3703,6 +3818,8 @@ input OrderCreateWithoutShippingAddressInput {
   totalShippingPrice: Int
   totalPrice: Int!
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartCreateOneInput!
   customer: UserCreateOneWithoutOrdersInput!
   payment: PaymentCreateOneWithoutOrderInput
@@ -3738,6 +3855,10 @@ enum OrderOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  shippingValue_ASC
+  shippingValue_DESC
+  shippingOption_ASC
+  shippingOption_DESC
 }
 
 type OrderPreviousValues {
@@ -3751,6 +3872,8 @@ type OrderPreviousValues {
   processedAt: DateTime
   updatedAt: DateTime!
   createdAt: DateTime!
+  shippingValue: Int
+  shippingOption: String
 }
 
 input OrderScalarWhereInput {
@@ -3988,6 +4111,68 @@ input OrderScalarWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  shippingValue: Int
+
+  """All values that are not equal to given value."""
+  shippingValue_not: Int
+
+  """All values that are contained in given list."""
+  shippingValue_in: [Int!]
+
+  """All values that are not contained in given list."""
+  shippingValue_not_in: [Int!]
+
+  """All values less than the given value."""
+  shippingValue_lt: Int
+
+  """All values less than or equal the given value."""
+  shippingValue_lte: Int
+
+  """All values greater than the given value."""
+  shippingValue_gt: Int
+
+  """All values greater than or equal the given value."""
+  shippingValue_gte: Int
+  shippingOption: String
+
+  """All values that are not equal to given value."""
+  shippingOption_not: String
+
+  """All values that are contained in given list."""
+  shippingOption_in: [String!]
+
+  """All values that are not contained in given list."""
+  shippingOption_not_in: [String!]
+
+  """All values less than the given value."""
+  shippingOption_lt: String
+
+  """All values less than or equal the given value."""
+  shippingOption_lte: String
+
+  """All values greater than the given value."""
+  shippingOption_gt: String
+
+  """All values greater than or equal the given value."""
+  shippingOption_gte: String
+
+  """All values containing the given string."""
+  shippingOption_contains: String
+
+  """All values not containing the given string."""
+  shippingOption_not_contains: String
+
+  """All values starting with the given string."""
+  shippingOption_starts_with: String
+
+  """All values not starting with the given string."""
+  shippingOption_not_starts_with: String
+
+  """All values ending with the given string."""
+  shippingOption_ends_with: String
+
+  """All values not ending with the given string."""
+  shippingOption_not_ends_with: String
 }
 
 type OrderShippingAddress implements Node {
@@ -4016,6 +4201,7 @@ type OrderShippingAddressConnection {
 }
 
 input OrderShippingAddressCreateInput {
+  id: ID
   street: String!
   number: String!
   complement: String
@@ -4035,6 +4221,7 @@ input OrderShippingAddressCreateOneWithoutOrderInput {
 }
 
 input OrderShippingAddressCreateWithoutOrderInput {
+  id: ID
   street: String!
   number: String!
   complement: String
@@ -4079,10 +4266,6 @@ enum OrderShippingAddressOrderByInput {
   firstName_DESC
   lastName_ASC
   lastName_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type OrderShippingAddressPreviousValues {
@@ -4684,6 +4867,8 @@ input OrderUpdateInput {
   totalShippingPrice: Int
   totalPrice: Int
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartUpdateOneRequiredInput
   customer: UserUpdateOneRequiredWithoutOrdersInput
   shippingAddress: OrderShippingAddressUpdateOneRequiredWithoutOrderInput
@@ -4698,6 +4883,8 @@ input OrderUpdateManyDataInput {
   totalShippingPrice: Int
   totalPrice: Int
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
 }
 
 input OrderUpdateManyMutationInput {
@@ -4708,6 +4895,8 @@ input OrderUpdateManyMutationInput {
   totalShippingPrice: Int
   totalPrice: Int
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
 }
 
 input OrderUpdateManyWithoutCustomerInput {
@@ -4749,6 +4938,8 @@ input OrderUpdateWithoutCustomerDataInput {
   totalShippingPrice: Int
   totalPrice: Int
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartUpdateOneRequiredInput
   shippingAddress: OrderShippingAddressUpdateOneRequiredWithoutOrderInput
   payment: PaymentUpdateOneWithoutOrderInput
@@ -4762,6 +4953,8 @@ input OrderUpdateWithoutPaymentDataInput {
   totalShippingPrice: Int
   totalPrice: Int
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartUpdateOneRequiredInput
   customer: UserUpdateOneRequiredWithoutOrdersInput
   shippingAddress: OrderShippingAddressUpdateOneRequiredWithoutOrderInput
@@ -4775,6 +4968,8 @@ input OrderUpdateWithoutShippingAddressDataInput {
   totalShippingPrice: Int
   totalPrice: Int
   processedAt: DateTime
+  shippingValue: Int
+  shippingOption: String
   cart: CartUpdateOneRequiredInput
   customer: UserUpdateOneRequiredWithoutOrdersInput
   payment: PaymentUpdateOneWithoutOrderInput
@@ -5036,6 +5231,68 @@ input OrderWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  shippingValue: Int
+
+  """All values that are not equal to given value."""
+  shippingValue_not: Int
+
+  """All values that are contained in given list."""
+  shippingValue_in: [Int!]
+
+  """All values that are not contained in given list."""
+  shippingValue_not_in: [Int!]
+
+  """All values less than the given value."""
+  shippingValue_lt: Int
+
+  """All values less than or equal the given value."""
+  shippingValue_lte: Int
+
+  """All values greater than the given value."""
+  shippingValue_gt: Int
+
+  """All values greater than or equal the given value."""
+  shippingValue_gte: Int
+  shippingOption: String
+
+  """All values that are not equal to given value."""
+  shippingOption_not: String
+
+  """All values that are contained in given list."""
+  shippingOption_in: [String!]
+
+  """All values that are not contained in given list."""
+  shippingOption_not_in: [String!]
+
+  """All values less than the given value."""
+  shippingOption_lt: String
+
+  """All values less than or equal the given value."""
+  shippingOption_lte: String
+
+  """All values greater than the given value."""
+  shippingOption_gt: String
+
+  """All values greater than or equal the given value."""
+  shippingOption_gte: String
+
+  """All values containing the given string."""
+  shippingOption_contains: String
+
+  """All values not containing the given string."""
+  shippingOption_not_contains: String
+
+  """All values starting with the given string."""
+  shippingOption_starts_with: String
+
+  """All values not starting with the given string."""
+  shippingOption_not_starts_with: String
+
+  """All values ending with the given string."""
+  shippingOption_ends_with: String
+
+  """All values not ending with the given string."""
+  shippingOption_not_ends_with: String
   cart: CartWhereInput
   customer: UserWhereInput
   shippingAddress: OrderShippingAddressWhereInput
@@ -5087,6 +5344,8 @@ type Payment implements Node {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -5114,6 +5373,7 @@ type PaymentConnection {
 }
 
 input PaymentCreateInput {
+  id: ID
   paymentId: String
   type: String!
   currency: String
@@ -5134,6 +5394,8 @@ input PaymentCreateInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -5162,6 +5424,7 @@ input PaymentCreateOneWithoutOrderInput {
 }
 
 input PaymentCreateWithoutCustomerInput {
+  id: ID
   paymentId: String
   type: String!
   currency: String
@@ -5182,6 +5445,8 @@ input PaymentCreateWithoutCustomerInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -5199,6 +5464,7 @@ input PaymentCreateWithoutCustomerInput {
 }
 
 input PaymentCreateWithoutOrderInput {
+  id: ID
   paymentId: String
   type: String!
   currency: String
@@ -5219,6 +5485,8 @@ input PaymentCreateWithoutOrderInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -5287,6 +5555,10 @@ enum PaymentOrderByInput {
   provider_DESC
   amount_ASC
   amount_DESC
+  feeAmount_ASC
+  feeAmount_DESC
+  netAmount_ASC
+  netAmount_DESC
   serviceTaxAmount_ASC
   serviceTaxAmount_DESC
   installments_ASC
@@ -5337,6 +5609,8 @@ type PaymentPreviousValues {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -6183,6 +6457,50 @@ input PaymentScalarWhereInput {
 
   """All values greater than or equal the given value."""
   amount_gte: Int
+  feeAmount: Int
+
+  """All values that are not equal to given value."""
+  feeAmount_not: Int
+
+  """All values that are contained in given list."""
+  feeAmount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  feeAmount_not_in: [Int!]
+
+  """All values less than the given value."""
+  feeAmount_lt: Int
+
+  """All values less than or equal the given value."""
+  feeAmount_lte: Int
+
+  """All values greater than the given value."""
+  feeAmount_gt: Int
+
+  """All values greater than or equal the given value."""
+  feeAmount_gte: Int
+  netAmount: Int
+
+  """All values that are not equal to given value."""
+  netAmount_not: Int
+
+  """All values that are contained in given list."""
+  netAmount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  netAmount_not_in: [Int!]
+
+  """All values less than the given value."""
+  netAmount_lt: Int
+
+  """All values less than or equal the given value."""
+  netAmount_lte: Int
+
+  """All values greater than the given value."""
+  netAmount_gt: Int
+
+  """All values greater than or equal the given value."""
+  netAmount_gte: Int
   serviceTaxAmount: Int
 
   """All values that are not equal to given value."""
@@ -6495,6 +6813,8 @@ input PaymentUpdateInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -6533,6 +6853,8 @@ input PaymentUpdateManyDataInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -6567,6 +6889,8 @@ input PaymentUpdateManyMutationInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -6627,6 +6951,8 @@ input PaymentUpdateWithoutCustomerDataInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -6664,6 +6990,8 @@ input PaymentUpdateWithoutOrderDataInput {
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
@@ -7527,6 +7855,50 @@ input PaymentWhereInput {
 
   """All values greater than or equal the given value."""
   amount_gte: Int
+  feeAmount: Int
+
+  """All values that are not equal to given value."""
+  feeAmount_not: Int
+
+  """All values that are contained in given list."""
+  feeAmount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  feeAmount_not_in: [Int!]
+
+  """All values less than the given value."""
+  feeAmount_lt: Int
+
+  """All values less than or equal the given value."""
+  feeAmount_lte: Int
+
+  """All values greater than the given value."""
+  feeAmount_gt: Int
+
+  """All values greater than or equal the given value."""
+  feeAmount_gte: Int
+  netAmount: Int
+
+  """All values that are not equal to given value."""
+  netAmount_not: Int
+
+  """All values that are contained in given list."""
+  netAmount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  netAmount_not_in: [Int!]
+
+  """All values less than the given value."""
+  netAmount_lt: Int
+
+  """All values less than or equal the given value."""
+  netAmount_lte: Int
+
+  """All values greater than the given value."""
+  netAmount_gt: Int
+
+  """All values greater than or equal the given value."""
+  netAmount_gte: Int
   serviceTaxAmount: Int
 
   """All values that are not equal to given value."""
@@ -7808,6 +8180,7 @@ type PostConnection {
 }
 
 input PostCreateInput {
+  id: ID
   isPublished: Boolean
   title: String!
   body: String!
@@ -7820,6 +8193,7 @@ input PostCreateManyWithoutAuthorInput {
 }
 
 input PostCreateWithoutAuthorInput {
+  id: ID
   isPublished: Boolean
   title: String!
   body: String!
@@ -8352,6 +8726,7 @@ type ProductCategoryConnection {
 }
 
 input ProductCategoryCreateInput {
+  id: ID
   name: String!
   slug: String!
   image: String
@@ -8371,6 +8746,7 @@ input ProductCategoryCreateOneWithoutProductsInput {
 }
 
 input ProductCategoryCreateWithoutProductsInput {
+  id: ID
   name: String!
   slug: String!
   image: String
@@ -8379,6 +8755,7 @@ input ProductCategoryCreateWithoutProductsInput {
 }
 
 input ProductCategoryCreateWithoutSubCategoriesInput {
+  id: ID
   name: String!
   slug: String!
   image: String
@@ -8406,10 +8783,6 @@ enum ProductCategoryOrderByInput {
   image_DESC
   information_ASC
   information_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type ProductCategoryPreviousValues {
@@ -8985,6 +9358,7 @@ type ProductConnection {
 }
 
 input ProductCreateInput {
+  id: ID
   slug: String!
   price: Int!
   name: String!
@@ -9012,6 +9386,7 @@ input ProductCreateOneWithoutVariantsInput {
 }
 
 input ProductCreateWithoutCategoryInput {
+  id: ID
   slug: String!
   price: Int!
   name: String!
@@ -9023,6 +9398,7 @@ input ProductCreateWithoutCategoryInput {
 }
 
 input ProductCreateWithoutVariantsInput {
+  id: ID
   slug: String!
   price: Int!
   name: String!
@@ -9059,8 +9435,6 @@ enum ProductOrderByInput {
   image_DESC
   updatedAt_ASC
   updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type ProductPreviousValues {
@@ -9371,6 +9745,7 @@ type ProductSubCategoryConnection {
 }
 
 input ProductSubCategoryCreateInput {
+  id: ID
   name: String!
   slug: String!
   image: String
@@ -9389,6 +9764,7 @@ input ProductSubCategoryCreateManyWithoutCategoriesInput {
 }
 
 input ProductSubCategoryCreateWithoutCategoriesInput {
+  id: ID
   name: String!
   slug: String!
   image: String
@@ -9415,10 +9791,6 @@ enum ProductSubCategoryOrderByInput {
   image_DESC
   information_ASC
   information_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type ProductSubCategoryPreviousValues {
@@ -10166,6 +10538,7 @@ type ProductVariantConnection {
 }
 
 input ProductVariantCreateInput {
+  id: ID
   slug: String!
   name: String!
   information: String
@@ -10184,6 +10557,7 @@ input ProductVariantCreateManyWithoutProductInput {
 }
 
 input ProductVariantCreateWithoutProductInput {
+  id: ID
   slug: String!
   name: String!
   information: String
@@ -11175,10 +11549,10 @@ type Query {
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
   contents(where: ContentWhereInput, orderBy: ContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Content]!
   creditCards(where: CreditCardWhereInput, orderBy: CreditCardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CreditCard]!
-  productSubCategories(where: ProductSubCategoryWhereInput, orderBy: ProductSubCategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProductSubCategory]!
-  productVariants(where: ProductVariantWhereInput, orderBy: ProductVariantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProductVariant]!
-  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   cupoms(where: CupomWhereInput, orderBy: CupomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Cupom]!
+  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+  productVariants(where: ProductVariantWhereInput, orderBy: ProductVariantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProductVariant]!
+  productSubCategories(where: ProductSubCategoryWhereInput, orderBy: ProductSubCategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ProductSubCategory]!
   carts(where: CartWhereInput, orderBy: CartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Cart]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
@@ -11189,13 +11563,15 @@ type Query {
   orderShippingAddress(where: OrderShippingAddressWhereUniqueInput!): OrderShippingAddress
   order(where: OrderWhereUniqueInput!): Order
   payment(where: PaymentWhereUniqueInput!): Payment
+  stores(where: StoresWhereUniqueInput!): Stores
   resetPasswordRequest(where: ResetPasswordRequestWhereUniqueInput!): ResetPasswordRequest
   file(where: FileWhereUniqueInput!): File
+  content(where: ContentWhereUniqueInput!): Content
   creditCard(where: CreditCardWhereUniqueInput!): CreditCard
-  productSubCategory(where: ProductSubCategoryWhereUniqueInput!): ProductSubCategory
-  productVariant(where: ProductVariantWhereUniqueInput!): ProductVariant
-  product(where: ProductWhereUniqueInput!): Product
   cupom(where: CupomWhereUniqueInput!): Cupom
+  product(where: ProductWhereUniqueInput!): Product
+  productVariant(where: ProductVariantWhereUniqueInput!): ProductVariant
+  productSubCategory(where: ProductSubCategoryWhereUniqueInput!): ProductSubCategory
   cart(where: CartWhereUniqueInput!): Cart
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -11211,10 +11587,10 @@ type Query {
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
   contentsConnection(where: ContentWhereInput, orderBy: ContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ContentConnection!
   creditCardsConnection(where: CreditCardWhereInput, orderBy: CreditCardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CreditCardConnection!
-  productSubCategoriesConnection(where: ProductSubCategoryWhereInput, orderBy: ProductSubCategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductSubCategoryConnection!
-  productVariantsConnection(where: ProductVariantWhereInput, orderBy: ProductVariantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductVariantConnection!
-  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
   cupomsConnection(where: CupomWhereInput, orderBy: CupomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CupomConnection!
+  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  productVariantsConnection(where: ProductVariantWhereInput, orderBy: ProductVariantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductVariantConnection!
+  productSubCategoriesConnection(where: ProductSubCategoryWhereInput, orderBy: ProductSubCategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductSubCategoryConnection!
   cartsConnection(where: CartWhereInput, orderBy: CartOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CartConnection!
 
   """Fetches an object given its ID"""
@@ -11244,6 +11620,7 @@ type ResetPasswordRequestConnection {
 }
 
 input ResetPasswordRequestCreateInput {
+  id: ID
   hash: String!
   reset: Boolean
   email: String!
@@ -11531,7 +11908,8 @@ enum Section {
   MAP
 }
 
-type Stores {
+type Stores implements Node {
+  id: ID!
   latitude: Float!
   longitude: Float!
   image: String
@@ -11554,6 +11932,7 @@ type StoresConnection {
 }
 
 input StoresCreateInput {
+  id: ID
   latitude: Float!
   longitude: Float!
   image: String
@@ -11574,6 +11953,8 @@ type StoresEdge {
 }
 
 enum StoresOrderByInput {
+  id_ASC
+  id_DESC
   latitude_ASC
   latitude_DESC
   longitude_ASC
@@ -11592,13 +11973,10 @@ enum StoresOrderByInput {
   zip_DESC
   updatedAt_ASC
   updatedAt_DESC
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type StoresPreviousValues {
+  id: ID!
   latitude: Float!
   longitude: Float!
   image: String
@@ -11649,6 +12027,17 @@ input StoresSubscriptionWhereInput {
   node: StoresWhereInput
 }
 
+input StoresUpdateInput {
+  latitude: Float
+  longitude: Float
+  image: String
+  name: String
+  description: String
+  address: String
+  city: String
+  zip: Int
+}
+
 input StoresUpdateManyMutationInput {
   latitude: Float
   longitude: Float
@@ -11669,6 +12058,46 @@ input StoresWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [StoresWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   latitude: Float
 
   """All values that are not equal to given value."""
@@ -11959,6 +12388,10 @@ input StoresWhereInput {
   updatedAt_gte: DateTime
 }
 
+input StoresWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -11974,10 +12407,10 @@ type Subscription {
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
   content(where: ContentSubscriptionWhereInput): ContentSubscriptionPayload
   creditCard(where: CreditCardSubscriptionWhereInput): CreditCardSubscriptionPayload
-  productSubCategory(where: ProductSubCategorySubscriptionWhereInput): ProductSubCategorySubscriptionPayload
-  productVariant(where: ProductVariantSubscriptionWhereInput): ProductVariantSubscriptionPayload
-  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   cupom(where: CupomSubscriptionWhereInput): CupomSubscriptionPayload
+  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  productVariant(where: ProductVariantSubscriptionWhereInput): ProductVariantSubscriptionPayload
+  productSubCategory(where: ProductSubCategorySubscriptionWhereInput): ProductSubCategorySubscriptionPayload
   cart(where: CartSubscriptionWhereInput): CartSubscriptionPayload
 }
 
@@ -12007,6 +12440,7 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
   email: String!
   password: String!
   firstName: String
@@ -12046,6 +12480,7 @@ input UserCreateOneWithoutPostsInput {
 }
 
 input UserCreateWithoutAddressesInput {
+  id: ID
   email: String!
   password: String!
   firstName: String
@@ -12059,6 +12494,7 @@ input UserCreateWithoutAddressesInput {
 }
 
 input UserCreateWithoutCartInput {
+  id: ID
   email: String!
   password: String!
   firstName: String
@@ -12072,6 +12508,7 @@ input UserCreateWithoutCartInput {
 }
 
 input UserCreateWithoutOrdersInput {
+  id: ID
   email: String!
   password: String!
   firstName: String
@@ -12085,6 +12522,7 @@ input UserCreateWithoutOrdersInput {
 }
 
 input UserCreateWithoutPaymentsInput {
+  id: ID
   email: String!
   password: String!
   firstName: String
@@ -12098,6 +12536,7 @@ input UserCreateWithoutPaymentsInput {
 }
 
 input UserCreateWithoutPostsInput {
+  id: ID
   email: String!
   password: String!
   firstName: String
@@ -12134,10 +12573,6 @@ enum UserOrderByInput {
   subscribed_DESC
   role_ASC
   role_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
 }
 
 type UserPreviousValues {

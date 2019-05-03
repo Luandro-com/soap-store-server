@@ -9,6 +9,9 @@ input PaymentInput {
   holderBirth: String
   holderPhone: String
   billingAddressId: String
+  installmentQuantity: Int
+  installmentValue: String
+  installmentNoInterest: String
 }
 
 enum PaymentType {
@@ -29,6 +32,8 @@ input OrderInput {
   processedAt: DateTime
   orderId: ID
   shippingAddressId: ID!
+  shippingValue: Int
+  shippingOption: String
 }
 
 input ContentInput {

@@ -1,25 +1,25 @@
 type Post {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  isPublished: Boolean! @default(value: "false")
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  isPublished: Boolean! @default(value: false)
   title: String!
   body: String!
   author: User!
 }
 
 type User {
-  id: ID! @unique
+  id: ID! @id
   email: String! @unique
   password: String!
   firstName: String
   lastName: String
   posts: [Post!]!
-  subscribed: Boolean @default(value: "false")
-  role: Role! @default(value: "CUSTOMER")
+  subscribed: Boolean @default(value: false)
+  role: Role! @default(value: CUSTOMER)
   addresses: [Address!]!
   orders: [Order!]!
-  cart: Cart
+  cart: Cart @relation(link: INLINE)
   payments: [Payment!]!
 }
 
@@ -31,12 +31,13 @@ enum Role {
 }
 
 type NewsletterSubscription {
+  id: ID! @id
   email: String! @unique
-  createdAt: DateTime!
+  createdAt: DateTime! @createdAt
 }
 type Address {
-  id: ID! @unique
-  type: AddressType! @default(value: "SHIPPING")
+  id: ID! @id
+  type: AddressType! @default(value: SHIPPING)
   street: String!
   number: String!
   complement: String
@@ -56,14 +57,14 @@ enum AddressType {
 }
 
 type Cart {
-  id: ID! @unique
+  id: ID! @id
   products: [CartItem!]!
-  updatedAt: DateTime!
+  updatedAt: DateTime! @updatedAt
   customer: User!
 }
 
 type CartItem {
-  id: ID! @unique
+  id: ID! @id
   cart: Cart!
   product: Product
   quantity: Int
@@ -71,18 +72,18 @@ type CartItem {
 }
 
 type ProductVariant {
-  id: ID! @unique
+  id: ID! @id
   slug: String! @unique
   name: String! @unique
   information: String
   image: String
   product: Product! @relation(name: "VariantsByProduct")
-  updatedAt: DateTime!
-  createdAt: DateTime!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type Product {
-  id: ID! @unique
+  id: ID! @id
   slug: String! @unique
   price: Int!
   name: String! @unique
@@ -93,11 +94,11 @@ type Product {
   subCategories: [ProductSubCategory]
   description: String
   image: String
-  updatedAt: DateTime!
+  updatedAt: DateTime! @updatedAt
 }
 
 type ProductCategory {
-  id: ID! @unique
+  id: ID! @id
   name: String! @unique
   slug: String! @unique
   subCategories: [ProductSubCategory]
@@ -107,7 +108,7 @@ type ProductCategory {
 }
 
 type ProductSubCategory {
-  id: ID! @unique
+  id: ID! @id
   name: String! @unique
   slug: String! @unique
   image: String
@@ -116,14 +117,14 @@ type ProductSubCategory {
 }
 
 type Cupom {
-  id: ID! @unique
+  id: ID! @id
   discount: Int!
   code: String!
-  updatedAt: DateTime!
+  updatedAt: DateTime! @updatedAt
 }
 
 type OrderShippingAddress {
-  id: ID! @unique
+  id: ID! @id
   street: String!
   number: String!
   complement: String
@@ -134,13 +135,13 @@ type OrderShippingAddress {
   country: String
   firstName: String!
   lastName: String!
-  order: Order!
+  order: Order! @relation(link: INLINE)
 }
 
 type Order {
-  id: ID! @unique
-  recurrying: Boolean! @default(value: "false")
-  status: OrderStatus! @default(value: "WAITING_PAYMENT")
+  id: ID! @id
+  recurrying: Boolean! @default(value: false)
+  status: OrderStatus! @default(value: WAITING_PAYMENT)
   code: String @unique
   cart: Cart!
   subTotalPrice: Int!
@@ -148,9 +149,11 @@ type Order {
   totalPrice: Int!
   customer: User!
   processedAt: DateTime
-  updatedAt: DateTime!
-  createdAt: DateTime!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
   shippingAddress: OrderShippingAddress!
+  shippingValue: Int
+  shippingOption: String
   payment: Payment
 }
 
@@ -164,7 +167,7 @@ enum OrderStatus {
 }
 
 type Payment {
-  id: ID! @unique
+  id: ID! @id
   paymentId: String
   type: String!
   currency: String
@@ -181,39 +184,42 @@ type Payment {
   customer: User!
   merchantOrderId: String!
   customerName: String
-  order: Order!
+  order: Order! @relation(link: INLINE)
   tid: String
   proofOfSale: String
   authorizationCode: String
   softDescriptor: String
   provider: String
   amount: Int
+  feeAmount: Int
+  netAmount: Int
   serviceTaxAmount: Int
   installments: Int
   interest: Int
-  capture: Boolean @default(value: "false")
-  authenticate: Boolean @default(value: "false")
-  recurrent: Boolean @default(value: "false")
+  capture: Boolean @default(value: false)
+  authenticate: Boolean @default(value: false)
+  recurrent: Boolean @default(value: false)
   receivedDate: DateTime
   cupom: Cupom
   status: Int
   isSplitted: Boolean
   returnMessage: String
   returnCode: String
-  updatedAt: DateTime!
-  createdAt: DateTime!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 type CreditCard {
-  id: ID! @unique
+  id: ID! @id
   cardNumber: String!
   holder: String!
   expirationDate: String!
-  saveCard: Boolean @default(value: "false")
+  saveCard: Boolean @default(value: false)
   brand: String!
 }
 
 type Stores {
+  id: ID! @id
   latitude: Float!
   longitude: Float!
   image: String
@@ -222,22 +228,22 @@ type Stores {
   address: String
   city: String
   zip: Int
-  updatedAt: DateTime!
+  updatedAt: DateTime! @updatedAt
 }
 
 type ResetPasswordRequest {
-  id: ID! @unique
+  id: ID! @id
   hash: String! @unique
-  reset: Boolean @default(value: "false")
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  reset: Boolean @default(value: false)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   email: String!
 }
 
 type File {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   filename: String!
   mimetype: String!
   encoding: String!
@@ -245,19 +251,20 @@ type File {
 }
 
 type Content {
+  id: ID! @id
   title: String
   logo: String
   metaDescription: String
   metaFavicon: String
-  metaKeyWords: [String!]
-  sections: [Section]
+  metaKeyWords: [String!] @scalarList(strategy: RELATION)
+  sections: [Section] @scalarList(strategy: RELATION)
   infoImage: String
-  bannerImages: [String]
+  bannerImages: [String] @scalarList(strategy: RELATION)
   description: String
   contact: String
   footer: String
-  updatedAt: DateTime!
-  createdAt: DateTime!
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 enum Section {

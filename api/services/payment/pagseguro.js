@@ -15,6 +15,7 @@ const initSession = () => new Promise((resolve, reject) => {
   })
   .then(res => res.text())
   .then(text => {
+    if (text === 'Internal Server Error') reject(text)
     parser.parseString(text, (err, result) => {
       if (err) throw err
       console.log('ID', result.session.id)
@@ -25,8 +26,8 @@ const initSession = () => new Promise((resolve, reject) => {
 })
 
 const transaction = data => new Promise((resolve, reject) => {
-  console.log('data', data)
   const body = js2xmlparser.parse("payment", data)
+  console.log('data', body)
   const url =  `https://${uri}.uol.com.br/v2/transactions?email=${process.env.PAGSEGURO_EMAIL}&token=${process.env.PAGSEGURO_TOKEN}`
   fetch(url, {
     method: 'POST',
@@ -37,6 +38,8 @@ const transaction = data => new Promise((resolve, reject) => {
   })
   .then(res => res.text())
   .then(text => {
+    console.log('TEXT', text)
+    if (text === 'Internal Server Error') reject(text)
     parser.parseString(text, (err, result) => {
       if (err) throw err
       console.log('RESULT', result)
